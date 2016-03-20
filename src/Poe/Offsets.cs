@@ -141,7 +141,7 @@ namespace PoeHUD.Poe
             int[] array = m.FindPatterns(basePtrPattern);//, fileRootPattern, areaChangePattern, inGameOffsetPattern);
             Base = m.ReadInt(m.AddressOfProcess + array[0] + 0x0F) - m.AddressOfProcess;
             System.Console.WriteLine("Base Address: " + (Base + m.AddressOfProcess).ToString("x8"));
-            //FileRoot = m.ReadInt(m.AddressOfProcess + array[1] + 0x28) - m.AddressOfProcess;
+            FileRoot = m.ReadInt(m.AddressOfProcess + array[1] + 0x28) - m.AddressOfProcess;
             //System.Console.WriteLine("FileRoot: " + FileRoot.ToString("x8"));
             //AreaChangeCount = m.ReadInt(m.AddressOfProcess + array[2] + 0xD) - m.AddressOfProcess;
         }

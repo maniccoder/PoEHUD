@@ -45,6 +45,7 @@ namespace PoeHUD
             {
                 var errorText = "Program exited with message:\n " + exceptionArgs.ExceptionObject;
                 File.AppendAllText("Error.log", $"{DateTime.Now.ToString("g")} {errorText}\r\n{new string('-', 30)}\r\n");
+                MessageBox.Show(String.Empty);
                 MessageBox.Show(errorText);
                 Environment.Exit(1);
             };
