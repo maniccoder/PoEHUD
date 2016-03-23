@@ -30,19 +30,10 @@ namespace PoeHUD.Framework.Helpers
                 : Color.Black;
         }
 
-        public static Color? ConfigColorValueExtractor(this string[] line, int index)
-        {
-            return IsNotNull(line, index) ? (Color?)line[index].ToBGRAColor() : null;
-        }
+        public static Color? ConfigColorValueExtractor(this string[] line, int index) => IsNotNull(line, index) ? (Color?)line[index].ToBGRAColor() : null;
 
-        public static string ConfigValueExtractor(this string[] line, int index)
-        {
-            return IsNotNull(line, index) ? line[index] : null;
-        }
+        public static string ConfigValueExtractor(this string[] line, int index) => IsNotNull(line, index) ? line[index] : null;
 
-        private static bool IsNotNull(string[] line, int index)
-        {
-            return line.Length > index && !string.IsNullOrEmpty(line[index]);
-        }
+        private static bool IsNotNull(string[] line, int index) => line.Length > index && !string.IsNullOrEmpty(line[index]);
     }
 }

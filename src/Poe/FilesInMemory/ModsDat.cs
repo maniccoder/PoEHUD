@@ -117,10 +117,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
             private class LevelComparer : IComparer<ModRecord>
             {
-                public int Compare(ModRecord x, ModRecord y)
-                {
-                    return -x.MinLevel + y.MinLevel;
-                }
+                public int Compare(ModRecord x, ModRecord y) => -x.MinLevel + y.MinLevel;
             }
         }
     }

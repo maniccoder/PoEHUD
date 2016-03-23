@@ -28,7 +28,6 @@ namespace PoeHUD.Poe.FilesInMemory
         {
             public readonly string Key;
             public int Hash;
-            // more fields can be added (see in visualGGPK)
 
             public TagRecord(Memory m, int addr)
             {

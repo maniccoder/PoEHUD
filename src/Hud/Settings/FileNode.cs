@@ -27,14 +27,8 @@ namespace PoeHUD.Hud.Settings
             }
         }
 
-        public static implicit operator string(FileNode node)
-        {
-            return node.Value;
-        }
+        public static implicit operator string(FileNode node) => node.Value;
 
-        public static implicit operator FileNode(string value)
-        {
-            return new FileNode(value);
-        }
+        public static implicit operator FileNode(string value) => new FileNode(value);
     }
 }

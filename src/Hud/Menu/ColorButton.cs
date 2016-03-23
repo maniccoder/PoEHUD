@@ -47,10 +47,8 @@ namespace PoeHUD.Hud.Menu
             }
         }
 
-        private static Color GetColor(ColorGdi color)
-        {
-            return Color.FromRgba(color.B | (color.G << 8) | (color.R << 16) | (color.A << 24));
-        }
+        private static Color GetColor(ColorGdi color) =>
+            Color.FromRgba(color.B | (color.G << 8) | (color.R << 16) | (color.A << 24));
 
         private static ColorGdi GetColorGdi(ColorNode node)
         {

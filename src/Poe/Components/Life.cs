@@ -50,9 +50,6 @@ namespace PoeHUD.Poe.Components
             }
         }
 
-        public bool HasBuff(string buff)
-        {
-            return Buffs.Exists(x => x.Name == buff);
-        }
+        public bool HasBuff(string buff) => Buffs.Exists(x => x.Name == buff);
     }
 }

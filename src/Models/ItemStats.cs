@@ -69,15 +69,9 @@ namespace PoeHUD.Models
             stats[(int)stat] += value;
         }
 
-        public float GetStat(ItemStatEnum stat)
-        {
-            return stats[(int)stat];
-        }
+        public float GetStat(ItemStatEnum stat) => stats[(int)stat];
 
         [Obsolete]
-        public ItemType GetSlot()
-        {
-            return ItemType.All;
-        }
+        public ItemType GetSlot() => ItemType.All;
     }
 }

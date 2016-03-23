@@ -17,9 +17,6 @@
         public T Min { get; set; }
         public T Max { get; set; }
 
-        public static implicit operator T(RangeNode<T> node)
-        {
-            return node.Value;
-        }
+        public static implicit operator T(RangeNode<T> node) => node.Value;
     }
 }

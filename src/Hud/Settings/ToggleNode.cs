@@ -29,14 +29,8 @@ namespace PoeHUD.Hud.Settings
             }
         }
 
-        public static implicit operator bool(ToggleNode node)
-        {
-            return node.Value;
-        }
+        public static implicit operator bool(ToggleNode node) => node.Value;
 
-        public static implicit operator ToggleNode(bool value)
-        {
-            return new ToggleNode(value);
-        }
+        public static implicit operator ToggleNode(bool value) => new ToggleNode(value);
     }
 }

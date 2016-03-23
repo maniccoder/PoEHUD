@@ -11,10 +11,7 @@ namespace PoeHUD.Hud
             : base(entityWrapper, new HudTexture(hudTexture), show, iconSize)
         { }
 
-        public override bool IsVisible()
-        {
-            return base.IsVisible() && EntityWrapper.IsAlive;
-        }
+        public override bool IsVisible() => base.IsVisible() && EntityWrapper.IsAlive;
     }
 
     public class ChestMapIcon : MapIcon
@@ -23,10 +20,7 @@ namespace PoeHUD.Hud
             : base(entityWrapper, hudTexture, show, iconSize)
         { }
 
-        public override bool IsEntityStillValid()
-        {
-            return EntityWrapper.IsValid && !EntityWrapper.GetComponent<Chest>().IsOpened;
-        }
+        public override bool IsEntityStillValid() => EntityWrapper.IsValid && !EntityWrapper.GetComponent<Chest>().IsOpened;
     }
 
     public class MapIcon
@@ -43,8 +37,8 @@ namespace PoeHUD.Hud
 
         public int? SizeOfLargeIcon { get; set; }
         public EntityWrapper EntityWrapper { get; }
-        public HudTexture TextureIcon { get; private set; }
-        public int Size { get; private set; }
+        public HudTexture TextureIcon { get; }
+        public int Size { get; }
         public Vector2 WorldPosition => EntityWrapper.GetComponent<Positioned>().GridPos;
 
         public static Vector2 DeltaInWorldToMinimapDelta(Vector2 delta, double diag, float scale, float deltaZ = 0)
@@ -57,14 +51,8 @@ namespace PoeHUD.Hud
             return new Vector2((delta.X - delta.Y) * cos, deltaZ - (delta.X + delta.Y) * sin);
         }
 
-        public virtual bool IsEntityStillValid()
-        {
-            return EntityWrapper.IsValid;
-        }
+        public virtual bool IsEntityStillValid() => EntityWrapper.IsValid;
 
-        public virtual bool IsVisible()
-        {
-            return show();
-        }
+        public virtual bool IsVisible() => show();
     }
 }

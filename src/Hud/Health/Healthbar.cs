@@ -65,14 +65,11 @@ namespace PoeHUD.Hud.Health
 
         public Life Life { get; }
         public EntityWrapper Entity { get; }
-        public bool IsValid { get; private set; }
+        public bool IsValid { get; }
         public UnitSettings Settings { get; }
-        public CreatureType Type { get; private set; }
+        public CreatureType Type { get; }
 
-        public bool IsShow(bool showEnemy)
-        {
-            return !isHostile ? Settings.Enable.Value : Settings.Enable && showEnemy && isHostile;
-        }
+        public bool IsShow(bool showEnemy) => !isHostile ? Settings.Enable.Value : Settings.Enable && showEnemy && isHostile;
 
         public LinkedList<int> DpsQueue { get; } = new LinkedList<int>();
 
@@ -107,9 +104,6 @@ namespace PoeHUD.Hud.Health
             }
         }
 
-        private int GetFullHp()
-        {
-            return Life.CurHP + Life.CurES;
-        }
+        private int GetFullHp() => Life.CurHP + Life.CurES;
     }
 }

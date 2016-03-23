@@ -51,10 +51,10 @@ namespace PoeHUD.Hud.Loot
         }
 
         public Color TextColor { get; }
-        public int BorderWidth { get; private set; }
-        public Color BorderColor { get; private set; }
-        public Color BackgroundColor { get; private set; }
-        public string Text { get; private set; }
-        public int IconIndex { get; private set; }
+        public int BorderWidth { get; }
+        public Color BorderColor { get; }
+        public Color BackgroundColor { get; }
+        public string Text { get; }
+        public int IconIndex { get; }
     }
 }

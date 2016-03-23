@@ -88,36 +88,25 @@ namespace PoeHUD.Models
             mods[m.Name](stats, m);
         }
 
-        private AddStat Single(ItemStatEnum stat)
-        {
-            return delegate (ItemStats x, ItemMod m) { x.AddToMod(stat, m.Value1); };
-        }
+        private AddStat Single(ItemStatEnum stat) => (ItemStats x, ItemMod m) => x.AddToMod(stat, m.Value1);
 
-        private AddStat Average(ItemStatEnum stat)
-        {
-            return delegate (ItemStats x, ItemMod m) { x.AddToMod(stat, (m.Value1 + m.Value2) / 2f); };
-        }
+        private AddStat Average(ItemStatEnum stat) => (ItemStats x, ItemMod m) => x.AddToMod(stat, (m.Value1 + m.Value2) / 2f);
 
-        private AddStat Dual(ItemStatEnum s1, ItemStatEnum s2)
-        {
-            return delegate (ItemStats x, ItemMod m)
+        private AddStat Dual(ItemStatEnum s1, ItemStatEnum s2) =>
+            (ItemStats x, ItemMod m) =>
             {
                 x.AddToMod(s1, m.Value1);
                 x.AddToMod(s2, m.Value2);
             };
-        }
 
-        private AddStat MultipleSame(params ItemStatEnum[] stats)
-        {
-            return delegate (ItemStats x, ItemMod m)
+        private AddStat MultipleSame(params ItemStatEnum[] stats) =>
+            (ItemStats x, ItemMod m) =>
             {
                 foreach (ItemStatEnum stat in stats)
                 {
                     x.AddToMod(stat, m.Value1);
                 }
             };
-        }
-
         private delegate void AddStat(ItemStats stats, ItemMod m);
     }
 }

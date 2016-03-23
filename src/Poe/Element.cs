@@ -22,10 +22,7 @@ namespace PoeHUD.Poe
         public int ChildCount => (M.ReadInt(Address + 0x20 + OffsetBuffers) - M.ReadInt(Address + 0x1C + OffsetBuffers)) / 4;
         public bool IsVisibleLocal => (M.ReadInt(Address + 0x68 + OffsetBuffers) & 1) == 1;
 
-        public bool IsVisible
-        {
-            get { return IsVisibleLocal && GetParentChain().All(current => current.IsVisibleLocal); }
-        }
+        public bool IsVisible => IsVisibleLocal && GetParentChain().All(current => current.IsVisibleLocal);
 
         public List<Element> Children => GetChildren<Element>();
 
@@ -100,9 +97,6 @@ namespace PoeHUD.Poe
             return poe_UIElement;
         }
 
-        public Element GetChildAtIndex(int index)
-        {
-            return index >= ChildCount ? null : GetObject<Element>(M.ReadInt(Address + 0x1C + OffsetBuffers, index * 4));
-        }
+        public Element GetChildAtIndex(int index) => index >= ChildCount ? null : GetObject<Element>(M.ReadInt(Address + 0x1C + OffsetBuffers, index * 4));
     }
 }

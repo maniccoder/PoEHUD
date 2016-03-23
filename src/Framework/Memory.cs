@@ -57,15 +57,9 @@ namespace PoeHUD.Framework
             return num;
         }
 
-        public bool IsInvalid()
-        {
-            return Process.HasExited || closed;
-        }
+        public bool IsInvalid() => Process.HasExited || closed;
 
-        public int ReadInt(int addr)
-        {
-            return BitConverter.ToInt32(ReadMem(addr, 4), 0);
-        }
+        public int ReadInt(int addr) => BitConverter.ToInt32(ReadMem(addr, 4), 0);
 
         public int ReadInt(int addr, params int[] offsets)
         {
@@ -73,25 +67,13 @@ namespace PoeHUD.Framework
             return offsets.Aggregate(num, (current, num2) => ReadInt(current + num2));
         }
 
-        public float ReadFloat(int addr)
-        {
-            return BitConverter.ToSingle(ReadMem(addr, 4), 0);
-        }
+        public float ReadFloat(int addr) => BitConverter.ToSingle(ReadMem(addr, 4), 0);
 
-        public long ReadLong(int addr)
-        {
-            return BitConverter.ToInt64(ReadMem(addr, 8), 0);
-        }
+        public long ReadLong(int addr) => BitConverter.ToInt64(ReadMem(addr, 8), 0);
 
-        public uint ReadUInt(int addr)
-        {
-            return BitConverter.ToUInt32(ReadMem(addr, 4), 0);
-        }
+        public uint ReadUInt(int addr) => BitConverter.ToUInt32(ReadMem(addr, 4), 0);
 
-        public short ReadShort(int addr)
-        {
-            return BitConverter.ToInt16(ReadMem(addr, 2), 0);
-        }
+        public short ReadShort(int addr) => BitConverter.ToInt16(ReadMem(addr, 2), 0);
 
         /// <summary>
         /// Read string as ASCII
@@ -136,20 +118,11 @@ namespace PoeHUD.Framework
             return replaceNull ? RTrimNull(@string) : @string;
         }
 
-        public byte ReadByte(int addr)
-        {
-            return ReadBytes(addr, 1).FirstOrDefault();
-        }
+        public byte ReadByte(int addr) => ReadBytes(addr, 1).FirstOrDefault();
 
-        public byte[] ReadBytes(int addr, int length)
-        {
-            return ReadMem(addr, length);
-        }
+        public byte[] ReadBytes(int addr, int length) => ReadMem(addr, length);
 
-        private void Open()
-        {
-            procHandle = WinApi.OpenProcess(Process, ProcessAccessFlags.All);
-        }
+        private void Open() => procHandle = WinApi.OpenProcess(Process, ProcessAccessFlags.All);
 
         private void Close()
         {
@@ -192,9 +165,6 @@ namespace PoeHUD.Framework
             return address;
         }
 
-        private bool CompareData(Pattern pattern, byte[] data, int offset)
-        {
-            return !pattern.Bytes.Where((t, i) => pattern.Mask[i] == 'x' && t != data[offset + i]).Any();
-        }
+        private bool CompareData(Pattern pattern, byte[] data, int offset) => !pattern.Bytes.Where((t, i) => pattern.Mask[i] == 'x' && t != data[offset + i]).Any();
     }
 }

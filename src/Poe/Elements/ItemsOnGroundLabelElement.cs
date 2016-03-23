@@ -44,9 +44,6 @@ namespace PoeHUD.Poe.Elements
             }
         }
 
-        private int GetLabelInfo()
-        {
-            return Label.Address != 0 ? M.ReadInt(Label.Address + 0x0C0C) : 0;
-        }
+        private int GetLabelInfo() => Label.Address != 0 ? M.ReadInt(Label.Address + 0x0C0C) : 0;
     }
 }

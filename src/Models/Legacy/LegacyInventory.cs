@@ -15,13 +15,8 @@ namespace PoeHUD.Models.Legacy
 
         public int Height => InternalInventory.Height;
 
-        public List<EntityWrapper> Items
-        {
-            get
-            {
-                return InternalInventory.Items.Select(current => new EntityWrapper(Poe, current)).ToList();
-            }
-        }
+        public List<EntityWrapper> Items =>
+            InternalInventory.Items.Select(current => new EntityWrapper(Poe, current)).ToList();
 
         public LegacyInventory(GameController poe, Poe.RemoteMemoryObjects.Inventory internalInventory)
         {

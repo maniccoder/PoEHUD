@@ -111,30 +111,20 @@ namespace PoeHUD.Hud.UI
             }
         }
 
-        public Size2 DrawText(string text, int height, Vector2 position, Color color, FontDrawFlags align = FontDrawFlags.Left)
-        {
-            return fontRenderer.DrawText(text, "Verdana", height, position, color, align);
-        }
+        public Size2 DrawText(string text, int height, Vector2 position, Color color, FontDrawFlags align = FontDrawFlags.Left) =>
+            fontRenderer.DrawText(text, "Verdana", height, position, color, align);
 
-        public Size2 DrawText(string text, int height, Vector2 position, FontDrawFlags align = FontDrawFlags.Left)
-        {
-            return fontRenderer.DrawText(text, "Verdana", height, position, Color.White, align);
-        }
+        public Size2 DrawText(string text, int height, Vector2 position, FontDrawFlags align = FontDrawFlags.Left) =>
+            fontRenderer.DrawText(text, "Verdana", height, position, Color.White, align);
 
-        public Size2 MeasureText(string text, int height, FontDrawFlags align = FontDrawFlags.Left)
-        {
-            return fontRenderer.MeasureText(text, "Verdana", height, align);
-        }
+        public Size2 MeasureText(string text, int height, FontDrawFlags align = FontDrawFlags.Left) =>
+            fontRenderer.MeasureText(text, "Verdana", height, align);
 
-        public void DrawBox(RectangleF rectangle, Color color)
-        {
+        public void DrawBox(RectangleF rectangle, Color color) =>
             textureRenderer.DrawBox(rectangle, color);
-        }
 
-        public void DrawFrame(RectangleF rectangle, float borderWidth, Color color)
-        {
+        public void DrawFrame(RectangleF rectangle, float borderWidth, Color color) =>
             textureRenderer.DrawFrame(rectangle, borderWidth, color);
-        }
 
         public void DrawImage(string fileName, RectangleF rectangle, float repeatX = 1f)
         {

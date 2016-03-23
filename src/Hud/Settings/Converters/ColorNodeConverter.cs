@@ -10,10 +10,7 @@ namespace PoeHUD.Hud.Settings.Converters
         public override bool CanWrite => true;
         public override bool CanRead => true;
 
-        public override ColorNode Create(Type objectType)
-        {
-            return new ColorNode();
-        }
+        public override ColorNode Create(Type objectType) => new ColorNode();
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

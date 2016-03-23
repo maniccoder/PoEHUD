@@ -14,7 +14,7 @@ namespace PoeHUD.Models
         public bool HasWaypoint { get; }
         public int Hash { get; }
 
-        public DateTime TimeEntered = DateTime.Now;
+        public DateTime TimeEntered { get; } = DateTime.Now;
 
         public AreaInstance(AreaTemplate area, int hash, int realLevel)
         {
@@ -28,10 +28,7 @@ namespace PoeHUD.Models
             IsHideout = Name.Contains("Hideout");
         }
 
-        public override string ToString()
-        {
-            return $"{Name} ({RealLevel}) #{Hash}";
-        }
+        public override string ToString() => $"{Name} ({RealLevel}) #{Hash}";
 
         public string DisplayName => String.Concat(Name, " (", RealLevel, ")");
 

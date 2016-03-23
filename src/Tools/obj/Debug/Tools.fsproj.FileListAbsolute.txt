@@ -20,3 +20,10 @@ C:\Users\vmv\Documents\GitHub\vmv-PoeHud\src\Tools\bin\Debug\FSharp.Core.dll
 C:\Users\vmv\Documents\GitHub\vmv-PoeHud\src\Tools\bin\Debug\FSharp.Core.xml
 C:\Users\vmv\Documents\GitHub\vmv-PoeHud\src\Tools\obj\Debug\Tools.dll
 C:\Users\vmv\Documents\GitHub\vmv-PoeHud\src\Tools\obj\Debug\Tools.pdb
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\bin\Debug\Tools.XML
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\bin\Debug\Tools.dll
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\bin\Debug\Tools.pdb
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\bin\Debug\FSharp.Core.dll
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\bin\Debug\FSharp.Core.xml
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\obj\Debug\Tools.dll
+C:\Users\Zeus\Source\Repos\PoEHUD\src\Tools\obj\Debug\Tools.pdb

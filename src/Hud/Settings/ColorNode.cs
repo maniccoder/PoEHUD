@@ -20,24 +20,12 @@ namespace PoeHUD.Hud.Settings
 
         public Color Value { get; set; }
 
-        public static implicit operator Color(ColorNode node)
-        {
-            return node.Value;
-        }
+        public static implicit operator Color(ColorNode node) => node.Value;
 
-        public static implicit operator ColorNode(uint value)
-        {
-            return new ColorNode(value);
-        }
+        public static implicit operator ColorNode(uint value) => new ColorNode(value);
 
-        public static implicit operator ColorNode(Color value)
-        {
-            return new ColorNode(value);
-        }
+        public static implicit operator ColorNode(Color value) => new ColorNode(value);
 
-        public static implicit operator ColorNode(ColorBGRA value)
-        {
-            return new ColorNode(value);
-        }
+        public static implicit operator ColorNode(ColorBGRA value) => new ColorNode(value);
     }
 }

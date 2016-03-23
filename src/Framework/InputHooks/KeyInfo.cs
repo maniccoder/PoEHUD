@@ -12,10 +12,10 @@ namespace PoeHUD.Framework.InputHooks
             Shift = shift;
         }
 
-        public Keys Keys { get; private set; }
-        public bool Control { get; private set; }
-        public bool Alt { get; private set; }
-        public bool Shift { get; private set; }
+        public Keys Keys { get; }
+        public bool Control { get; }
+        public bool Alt { get; }
+        public bool Shift { get; }
         public bool Handled { get; set; }
     }
 }

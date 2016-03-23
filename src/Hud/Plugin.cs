@@ -26,7 +26,7 @@ namespace PoeHUD.Hud
             gameController.EntityListWrapper.EntityRemoved += OnEntityRemoved;
         }
 
-        protected TSettings Settings { get; private set; }
+        protected TSettings Settings { get; }
 
         public virtual void Dispose()
         {
@@ -53,12 +53,10 @@ namespace PoeHUD.Hud
             return new RectangleF(x, y, (xSprite + 1) / 8 - x, (ySprite + 1) / 3 - y);
         }
 
-        protected static IEnumerable<string[]> LoadConfigBase(string path, int columnsCount = 2)
-        {
-            return File.ReadAllLines(path)
+        protected static IEnumerable<string[]> LoadConfigBase(string path, int columnsCount = 2) =>
+            File.ReadAllLines(path)
                 .Where(line => !string.IsNullOrWhiteSpace(line) && line.IndexOf(';') >= 0 && !line.StartsWith("#"))
                 .Select(line => line.Split(new[] { ';' }, columnsCount).Select(parts => parts.Trim()).ToArray());
-        }
 
         /// <summary>
         /// Loads a Comma separated file into a list of Strings

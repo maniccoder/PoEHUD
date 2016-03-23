@@ -30,20 +30,11 @@ namespace PoeHUD.Framework
             return rect.ToRectangle(point);
         }
 
-        public static bool IsForegroundWindow(IntPtr handle)
-        {
-            return GetForegroundWindow() == handle;
-        }
+        public static bool IsForegroundWindow(IntPtr handle) => GetForegroundWindow() == handle;
 
-        public static bool IsKeyDown(Keys key)
-        {
-            return (GetAsyncKeyState(key) & 0x8000) != 0;
-        }
+        public static bool IsKeyDown(Keys key) => (GetAsyncKeyState(key) & 0x8000) != 0;
 
-        public static IntPtr OpenProcess(Process process, ProcessAccessFlags flags)
-        {
-            return OpenProcess(flags, false, process.Id);
-        }
+        public static IntPtr OpenProcess(Process process, ProcessAccessFlags flags) => OpenProcess(flags, false, process.Id);
 
         public static bool ReadProcessMemory(IntPtr handle, IntPtr baseAddress, byte[] buffer)
         {
@@ -159,10 +150,7 @@ namespace PoeHUD.Framework
         {
             private readonly int left, top, right, bottom;
 
-            public Rectangle ToRectangle(Point point)
-            {
-                return new Rectangle(point.X, point.Y, right - left, bottom - top);
-            }
+            public Rectangle ToRectangle(Point point) => new Rectangle(point.X, point.Y, right - left, bottom - top);
         }
 
         #endregion Structures

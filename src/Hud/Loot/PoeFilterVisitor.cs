@@ -231,10 +231,7 @@ namespace PoeHUD.Hud.Loot
             return null;
         }
 
-        private string GetRawText(ParserRuleContext context)
-        {
-            return context.GetText().Trim('"');
-        }
+        private string GetRawText(ParserRuleContext context) => context.GetText().Trim('"');
 
         private bool CalculateDigitsCondition(
             PoeFilterParser.Model.PoeFilterParser.CompareOpNullableContext compareOpNullable,

@@ -29,9 +29,8 @@ namespace PoeHUD.Hud.Preload
             GameController.Area.OnAreaChange += OnAreaChange;
         }
 
-        public Dictionary<string, PreloadConfigLine> LoadConfig(string path)
-        {
-            return LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
+        public Dictionary<string, PreloadConfigLine> LoadConfig(string path) =>
+            LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
             {
                 var preloadAlerConfigLine = new PreloadConfigLine
                 {
@@ -40,7 +39,6 @@ namespace PoeHUD.Hud.Preload
                 };
                 return preloadAlerConfigLine;
             });
-        }
 
         public override void Render()
         {

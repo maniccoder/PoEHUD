@@ -14,9 +14,9 @@ namespace PoeHUD.Framework.InputHooks
             WheelDelta = wheelDelta;
         }
 
-        public MouseButtons Buttons { get; private set; }
-        public PointDX Position { get; private set; }
-        public int WheelDelta { get; private set; }
+        public MouseButtons Buttons { get; }
+        public PointDX Position { get; }
+        public int WheelDelta { get; }
         public bool Handled { get; set; }
     }
 }

@@ -53,40 +53,40 @@ namespace PoeHUD.Hud.Settings
         }
 
         [JsonProperty("Menu")]
-        public MenuSettings MenuSettings { get; private set; }
+        public MenuSettings MenuSettings { get; }
 
         [JsonProperty("DPS meter")]
-        public DpsMeterSettings DpsMeterSettings { get; private set; }
+        public DpsMeterSettings DpsMeterSettings { get; }
 
         [JsonProperty("Map icons")]
-        public MapIconsSettings MapIconsSettings { get; private set; }
+        public MapIconsSettings MapIconsSettings { get; }
 
         [JsonProperty("Item alert")]
-        public ItemAlertSettings ItemAlertSettings { get; private set; }
+        public ItemAlertSettings ItemAlertSettings { get; }
 
         [JsonProperty("Advanced tooltip")]
-        public AdvancedTooltipSettings AdvancedTooltipSettings { get; private set; }
+        public AdvancedTooltipSettings AdvancedTooltipSettings { get; }
 
         [JsonProperty("Monster tracker")]
-        public MonsterTrackerSettings MonsterTrackerSettings { get; private set; }
+        public MonsterTrackerSettings MonsterTrackerSettings { get; }
 
         [JsonProperty("Poi tracker")]
-        public PoiTrackerSettings PoiTrackerSettings { get; private set; }
+        public PoiTrackerSettings PoiTrackerSettings { get; }
 
         [JsonProperty("Preload alert")]
-        public PreloadAlertSettings PreloadAlertSettings { get; private set; }
+        public PreloadAlertSettings PreloadAlertSettings { get; }
 
         [JsonProperty("XP per hour")]
-        public XpRateSettings XpRateSettings { get; private set; }
+        public XpRateSettings XpRateSettings { get; }
 
         [JsonProperty("Health bar")]
-        public HealthBarSettings HealthBarSettings { get; private set; }
+        public HealthBarSettings HealthBarSettings { get; }
 
         [JsonProperty("Inventory preview")]
-        public InventoryPreviewSettings InventoryPreviewSettings { get; private set; }
+        public InventoryPreviewSettings InventoryPreviewSettings { get; }
 
         [JsonProperty("Kills Counter")]
-        public KillCounterSettings KillCounterSettings { get; private set; }
+        public KillCounterSettings KillCounterSettings { get; }
 
         public static SettingsHub Load()
         {

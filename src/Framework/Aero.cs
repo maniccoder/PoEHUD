@@ -79,15 +79,9 @@ namespace PoeHUD.Framework
             return true;
         }
 
-        public Boolean SwitchToClassicTheme()
-        {
-            return SwitchTheme(windowsFolder + @"\Resources\Ease of Access Themes\basic.theme");
-        }
+        public Boolean SwitchToClassicTheme() => SwitchTheme(windowsFolder + @"\Resources\Ease of Access Themes\basic.theme");
 
-        public Boolean SwitchToAeroTheme()
-        {
-            return SwitchTheme(windowsFolder + @"\Resources\Themes\aero.theme");
-        }
+        public Boolean SwitchToAeroTheme() => SwitchTheme(windowsFolder + @"\Resources\Themes\aero.theme");
 
         public string GetTheme()
         {

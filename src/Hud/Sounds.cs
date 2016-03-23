@@ -29,10 +29,7 @@ namespace PoeHUD.Hud
             }
         }
 
-        public static SoundPlayer GetSound(string name)
-        {
-            return soundLib[name];
-        }
+        public static SoundPlayer GetSound(string name) => soundLib[name];
 
         public static void LoadSounds()
         {

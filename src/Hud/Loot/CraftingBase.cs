@@ -10,10 +10,7 @@ namespace PoeHUD.Hud.Loot
         public int MinQuality { get; set; }
         public ItemRarity[] Rarities { get; set; }
 
-        public override int GetHashCode()
-        {
-            return Name.ToLowerInvariant().GetHashCode();
-        }
+        public override int GetHashCode() => Name.ToLowerInvariant().GetHashCode();
 
         public override bool Equals(object obj)
         {

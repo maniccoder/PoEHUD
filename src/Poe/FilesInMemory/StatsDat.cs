@@ -54,10 +54,7 @@ namespace PoeHUD.Poe.FilesInMemory
                 UserFriendlyName = m.ReadStringU(m.ReadInt(addr + 0xC), 255);
             }
 
-            public override string ToString()
-            {
-                return String.IsNullOrWhiteSpace(UserFriendlyName) ? Key : UserFriendlyName;
-            }
+            public override string ToString() => String.IsNullOrWhiteSpace(UserFriendlyName) ? Key : UserFriendlyName;
 
             internal string ValueToString(int val)
             {

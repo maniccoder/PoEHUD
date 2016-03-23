@@ -55,10 +55,7 @@ namespace PoeHUD.Hud.Menu
             }
         }
 
-        protected override bool TestBounds(Vector2 pos)
-        {
-            return isHolding || base.TestBounds(pos);
-        }
+        protected override bool TestBounds(Vector2 pos) => isHolding || base.TestBounds(pos);
 
         private void CalcValue(float x)
         {
@@ -73,9 +70,6 @@ namespace PoeHUD.Hud.Menu
             node.Value = (T)(dynamic)Math.Round((float)(dynamic)node.Min + num3 * MinusFloat(node.Max, node.Min));
         }
 
-        private float MinusFloat(T one, T two)
-        {
-            return (float)((dynamic)one - two);
-        }
+        private float MinusFloat(T one, T two) => (float)((dynamic)one - two);
     }
 }

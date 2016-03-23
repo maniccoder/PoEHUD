@@ -16,7 +16,7 @@ namespace PoeHUD.Framework
             handle = process.MainWindowHandle;
         }
 
-        public Process Process { get; private set; }
+        public Process Process { get; }
 
         public RectangleF GetWindowRectangle()
         {
@@ -24,10 +24,7 @@ namespace PoeHUD.Framework
             return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
-        public bool IsForeground()
-        {
-            return WinApi.IsForegroundWindow(handle);
-        }
+        public bool IsForeground() => WinApi.IsForegroundWindow(handle);
 
         public Vector2 ScreenToClient(int x, int y)
         {

@@ -25,11 +25,7 @@ namespace PoeHUD.Framework
             Max = int.MinValue;
         }
 
-        public override string ToString()
-        {
-            return String.Concat(Min, " - ", Max);
-        }
-
+        public override string ToString() => String.Concat(Min, " - ", Max);
         internal float GetPercentage(int val)
         {
             if (Min == Max)
@@ -37,9 +33,6 @@ namespace PoeHUD.Framework
             return (float)(val - Min) / (Max - Min);
         }
 
-        internal bool HasSpread()
-        {
-            return Max != Min;
-        }
+        internal bool HasSpread() => Max != Min;
     }
 }

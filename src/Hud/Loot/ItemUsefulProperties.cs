@@ -25,10 +25,8 @@ namespace PoeHUD.Hud.Loot
             _craftingBase = craftingBase;
         }
 
-        public AlertDrawStyle GetDrawStyle()
-        {
-            return new AlertDrawStyle(new Color().Equals(color) ? (object)rarity : color, borderWidth, alertText, alertIcon);
-        }
+        public AlertDrawStyle GetDrawStyle() =>
+            new AlertDrawStyle(new Color().Equals(color) ? (object)rarity : color, borderWidth, alertText, alertIcon);
 
         public bool ShouldAlert(HashSet<string> currencyNames, ItemAlertSettings settings)
         {
@@ -134,9 +132,7 @@ namespace PoeHUD.Hud.Loot
             return false;
         }
 
-        private bool IsCraftingBase(int itemLevel)
-        {
-            return !String.IsNullOrEmpty(_craftingBase.Name) && itemLevel >= _craftingBase.MinItemLevel && quality >= _craftingBase.MinQuality && (_craftingBase.Rarities == null || _craftingBase.Rarities.Contains(rarity));
-        }
+        private bool IsCraftingBase(int itemLevel) =>
+            !String.IsNullOrEmpty(_craftingBase.Name) && itemLevel >= _craftingBase.MinItemLevel && quality >= _craftingBase.MinQuality && (_craftingBase.Rarities == null || _craftingBase.Rarities.Contains(rarity));
     }
 }

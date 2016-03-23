@@ -9,15 +9,10 @@ namespace PoeHUD.Hud.Settings.Converters
         public override bool CanWrite => true;
         public override bool CanRead => true;
 
-        public override ToggleNode Create(Type objectType)
-        {
-            return false;
-        }
+        public override ToggleNode Create(Type objectType) => false;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            return new ToggleNode(serializer.Deserialize<bool>(reader));
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) =>
+            new ToggleNode(serializer.Deserialize<bool>(reader));
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

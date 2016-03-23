@@ -87,9 +87,7 @@ namespace PoeHUD.Models.Legacy
             throw new Exception("Invalid socket char: " + s);
         }
 
-        public bool Contains(LegacyLink other)
-        {
-            return other.NumberOfRed <= NumberOfRed && other.NumberOfGreen <= NumberOfGreen && other.NumberOfBlue <= NumberOfBlue;
-        }
+        public bool Contains(LegacyLink other) =>
+            other.NumberOfRed <= NumberOfRed && other.NumberOfGreen <= NumberOfGreen && other.NumberOfBlue <= NumberOfBlue;
     }
 }

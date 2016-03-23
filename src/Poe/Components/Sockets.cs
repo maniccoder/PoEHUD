@@ -92,13 +92,8 @@ namespace PoeHUD.Poe.Components
 
         public int NumberOfSockets => SocketList.Count;
 
-        public bool IsRGB
-        {
-            get
-            {
-                return Address != 0 && Links.Any(current => current.Length >= 3 && current.Contains(1) && current.Contains(2) && current.Contains(3));
-            }
-        }
+        public bool IsRGB =>
+                Address != 0 && Links.Any(current => current.Length >= 3 && current.Contains(1) && current.Contains(2) && current.Contains(3));
 
         public List<string> SocketGroup
         {

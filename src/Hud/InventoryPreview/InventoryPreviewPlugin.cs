@@ -102,25 +102,16 @@ namespace PoeHUD.Hud.InventoryPreview
             }
         }
 
-        private static Size GetItemSize(RectangleF itemElementRectangle, Size2F oneCellSize)
-        {
-            return new Size((int)(itemElementRectangle.Width / oneCellSize.Width + 0.5), (int)(itemElementRectangle.Height / oneCellSize.Height + 0.5));
-        }
+        private static Size GetItemSize(RectangleF itemElementRectangle, Size2F oneCellSize) =>
+            new Size((int)(itemElementRectangle.Width / oneCellSize.Width + 0.5), (int)(itemElementRectangle.Height / oneCellSize.Height + 0.5));
 
-        private static Size2F GetOneCellSize(RectangleF inventoryZoneRectangle)
-        {
-            return new Size2F(inventoryZoneRectangle.Width / CELLS_X_COUNT, inventoryZoneRectangle.Height / CELLS_Y_COUNT);
-        }
+        private static Size2F GetOneCellSize(RectangleF inventoryZoneRectangle) =>
+            new Size2F(inventoryZoneRectangle.Width / CELLS_X_COUNT, inventoryZoneRectangle.Height / CELLS_Y_COUNT);
 
-        private Element GetInventoryZone()
-        {
-            return ingameUiElements.ReadObject<Element>(ingameUiElements.InventoryPanel.Address + 0x778 + 0x26C);
-        }
+        private Element GetInventoryZone() =>
+            ingameUiElements.ReadObject<Element>(ingameUiElements.InventoryPanel.Address + 0x778 + 0x26C);
 
-        private int GetCellSize(bool extendsSide)
-        {
-            return extendsSide ? Settings.CellSize : Math.Max(1, Settings.CellSize - Settings.CellPadding);
-        }
+        private int GetCellSize(bool extendsSide) => extendsSide ? Settings.CellSize : Math.Max(1, Settings.CellSize - Settings.CellPadding);
 
         private bool OnMouseEvent(MouseInfo mouseInfo)
         {

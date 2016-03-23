@@ -48,13 +48,8 @@ namespace PoeHUD.Models
             }
         }
 
-        public List<EntityWrapper> Minions
-        {
-            get
-            {
-                return GetComponent<Actor>().Minions.Select(current => gameController.EntityListWrapper.GetEntityById(current)).Where(byId => byId != null).ToList();
-            }
-        }
+        public List<EntityWrapper> Minions =>
+                GetComponent<Actor>().Minions.Select(current => gameController.EntityListWrapper.GetEntityById(current)).Where(byId => byId != null).ToList();
 
         public T GetComponent<T>() where T : Component, new()
         {
@@ -62,10 +57,7 @@ namespace PoeHUD.Models
             return gameController.Game.GetObject<T>(components.ContainsKey(name) ? components[name] : 0);
         }
 
-        public bool HasComponent<T>() where T : Component, new()
-        {
-            return components.ContainsKey(typeof(T).Name);
-        }
+        public bool HasComponent<T>() where T : Component, new() => components.ContainsKey(typeof(T).Name);
 
         public void PrintComponents()
         {
@@ -82,14 +74,8 @@ namespace PoeHUD.Models
             return entity != null && entity.LongId == LongId;
         }
 
-        public override int GetHashCode()
-        {
-            return LongId.GetHashCode();
-        }
+        public override int GetHashCode() => LongId.GetHashCode();
 
-        public override string ToString()
-        {
-            return "EntityWrapper: " + Path;
-        }
+        public override string ToString() => "EntityWrapper: " + Path;
     }
 }

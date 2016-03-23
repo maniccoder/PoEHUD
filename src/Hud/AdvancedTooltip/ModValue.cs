@@ -55,17 +55,14 @@ namespace PoeHUD.Hud.AdvancedTooltip
             Color = ColorUtils.ColorFromHsv(hue, totalTiers == 1 ? 0 : 1, 1);
         }
 
-        public ModsDat.ModType AffixType { get; private set; }
-        public bool IsCrafted { get; private set; }
-        public String AffixText { get; private set; }
-        public Color Color { get; private set; }
+        public ModsDat.ModType AffixType { get; }
+        public bool IsCrafted { get; }
+        public String AffixText { get; }
+        public Color Color { get; }
         public ModsDat.ModRecord Record { get; }
-        public int[] StatValue { get; private set; }
-        public int Tier { get; private set; }
+        public int[] StatValue { get; }
+        public int Tier { get; }
 
-        public bool CouldHaveTiers()
-        {
-            return totalTiers > 1;
-        }
+        public bool CouldHaveTiers() => totalTiers > 1;
     }
 }

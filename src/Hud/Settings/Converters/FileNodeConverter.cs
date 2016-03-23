@@ -9,15 +9,10 @@ namespace PoeHUD.Hud.Settings.Converters
         public override bool CanWrite => true;
         public override bool CanRead => true;
 
-        public override FileNode Create(Type objectType)
-        {
-            return string.Empty;
-        }
+        public override FileNode Create(Type objectType) => string.Empty;
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            return new FileNode(serializer.Deserialize<string>(reader));
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) =>
+            new FileNode(serializer.Deserialize<string>(reader));
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

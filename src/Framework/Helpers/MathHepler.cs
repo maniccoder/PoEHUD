@@ -46,14 +46,8 @@ namespace PoeHUD.Framework.Helpers
             return max;
         }
 
-        public static Vector2 Translate(this Vector2 vector, float dx, float dy)
-        {
-            return new Vector2(vector.X + dx, vector.Y + dy);
-        }
+        public static Vector2 Translate(this Vector2 vector, float dx, float dy) => new Vector2(vector.X + dx, vector.Y + dy);
 
-        public static Vector3 Translate(this Vector3 vector, float dx, float dy, float dz)
-        {
-            return new Vector3(vector.X + dx, vector.Y + dy, vector.Z + dz);
-        }
+        public static Vector3 Translate(this Vector3 vector, float dx, float dy, float dz) => new Vector3(vector.X + dx, vector.Y + dy, vector.Z + dz);
     }
 }

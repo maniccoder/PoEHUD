@@ -89,16 +89,12 @@ namespace PoeHUD.Hud.Menu
             }
         }
 
-        public bool TestHit(Vector2 pos)
-        {
-            return IsVisible && (TestBounds(pos) || Children.Any(current => current.TestHit(pos)));
-        }
+        public bool TestHit(Vector2 pos) =>
+            IsVisible && (TestBounds(pos) || Children.Any(current => current.TestHit(pos)));
 
         protected abstract void HandleEvent(MouseEventID id, Vector2 pos);
 
-        protected virtual bool TestBounds(Vector2 pos)
-        {
-            return Bounds.Contains(pos);
-        }
+        protected virtual bool TestBounds(Vector2 pos) =>
+            Bounds.Contains(pos);
     }
 }
