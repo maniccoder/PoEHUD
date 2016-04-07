@@ -93,6 +93,7 @@ namespace PoeHUD.Hud.Preload
                 lastCount = 0;
                 foundSpecificPerandusChest = false;
             }
+            List<string> LoadedFileNames = new List<string>();
             Memory memory = GameController.Memory;
             hasCorruptedArea = Settings.AreaTextColor;
             int pFileRoot = memory.ReadInt(memory.AddressOfProcess + memory.offsets.FileRoot);
@@ -126,8 +127,15 @@ namespace PoeHUD.Hud.Preload
                     if (memory.ReadInt(listIterator + 0x8) == 0 || memory.ReadInt(listIterator + 0xC, 0x24) != areaChangeCount) continue;
                     string text = memory.ReadStringU(memory.ReadInt(listIterator + 8));
                     if (text.Contains('@')) { text = text.Split('@')[0]; }
+                    if (!LoadedFileNames.Contains(text))
+                        LoadedFileNames.Add(text);
                     CheckForPreload(text);
                 }
+                // delete the dump file
+                if (System.IO.File.Exists("LoadedFileNames.txt"))
+                    System.IO.File.Delete("LoadedFileNames.txt");
+                // populate the dump file
+                System.IO.File.WriteAllLines("LoadedFileNames.txt", LoadedFileNames);
             }
             lastCount = count;
         }
