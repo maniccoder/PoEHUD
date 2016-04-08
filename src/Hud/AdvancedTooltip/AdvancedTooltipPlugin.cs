@@ -42,10 +42,7 @@ namespace PoeHUD.Hud.AdvancedTooltip
                 {
                     holdKey = true;
                     Settings.ItemMods.Enable.Value = !Settings.ItemMods.Enable.Value;
-                    if (!Settings.ItemMods.Enable.Value)
-                    {
-                        SettingsHub.Save(settingsHub);
-                    }
+                    SettingsHub.Save(settingsHub);
                 }
                 else if (holdKey && !WinApi.IsKeyDown(Keys.F9))
                 {

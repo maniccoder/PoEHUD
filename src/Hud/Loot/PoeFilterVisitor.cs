@@ -36,6 +36,8 @@ namespace PoeHUD.Hud.Loot
         {
             var filterEnabled = settings.WithBorder || settings.WithSound;
             var baseItemType = gameController.Files.BaseItemTypes.Translate(entity.Path);
+            if (baseItemType == null)
+                return null;
             var basename = baseItemType.BaseName;
             var dropLevel = baseItemType.DropLevel;
             var className = baseItemType.ClassName;

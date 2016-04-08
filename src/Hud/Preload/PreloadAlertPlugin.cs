@@ -32,13 +32,13 @@ namespace PoeHUD.Hud.Preload
         public Dictionary<string, PreloadConfigLine> LoadConfig(string path) =>
             LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
         {
-                var preloadAlerConfigLine = new PreloadConfigLine
-                {
-                    Text = line[1],
-                    Color = line.ConfigColorValueExtractor(2)
-                };
-                return preloadAlerConfigLine;
-            });
+            var preloadAlerConfigLine = new PreloadConfigLine
+            {
+                Text = line[1],
+                Color = line.ConfigColorValueExtractor(2)
+            };
+            return preloadAlerConfigLine;
+        });
 
         public override void Render()
         {
@@ -53,11 +53,11 @@ namespace PoeHUD.Hud.Preload
                 }
                 else if (DateTime.Now <= maxParseTime)
                 {
-                int count = GetNumberOfObjects();
-                if (lastCount != count)
-                {
+                    int count = GetNumberOfObjects();
+                    if (lastCount != count)
+                    {
                         areaChanged = true;
-                }
+                    }
                 }
 
                 if (alerts.Count <= 0) return;
