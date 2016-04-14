@@ -37,7 +37,7 @@ namespace PoeHUD.Controllers
                     int num = mem.ReadInt(mem.AddressOfProcess + mem.offsets.FileRoot, 8);
                     for (int num2 = mem.ReadInt(num); num2 != num; num2 = mem.ReadInt(num2))
                     {
-                        string text = mem.ReadStringU(mem.ReadInt(num2 + 8), 512);
+                        string text = mem.ReadStringU(mem.ReadInt(num2 + 0x8), 512);
                         if (text.Contains("."))
                         {
                             files.Add(text, mem.ReadInt(num2 + 12));
