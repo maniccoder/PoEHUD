@@ -42,7 +42,7 @@ namespace PoeHUD.Hud.Loot
 
             alertText = string.Concat(quality > 0 ? "Superior " : String.Empty, _name);
 
-            if (settings.Maps && (_item.HasComponent<Map>() || _item.Path.Contains("VaalFragment")))
+            if (settings.Maps && (_item.HasComponent<Maps>() || _item.Path.Contains("VaalFragment")))
             {
                 borderWidth = 1;
                 return true;

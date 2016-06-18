@@ -48,7 +48,8 @@ namespace PoeHUD.Hud.Loot
             var blocks = context.block();
             var mods = entity.GetComponent<Mods>();
             var isSkillHGem = entity.HasComponent<SkillGem>();
-            var isMap = entity.HasComponent<Map>();
+            var isMap = baseItemType.ClassName == "Map";
+            var isMapFragment = baseItemType.ClassName == "MapFragment";
             var itemRarity = mods.ItemRarity;
             var quality = 0;
             if (entity.HasComponent<Quality>()) { quality = entity.GetComponent<Quality>().ItemQuality; }
@@ -71,7 +72,7 @@ namespace PoeHUD.Hud.Loot
 
             foreach (var block in blocks)
             {
-                var isShow = block.visibility().SHOW() != null;
+                var isShow = (block.visibility().SHOW() != null) || isMap || isMapFragment;
                 var itemLevelCondition = true;
                 var dropLevelCondition = true;
                 var poeClassCondition = true;
@@ -98,28 +99,32 @@ namespace PoeHUD.Hud.Loot
                         itemLevelCondition &= CalculateDigitsCondition(poeItemLevelContext.compareOpNullable(),
                             poeItemLevelContext.digitsParams(), mods.ItemLevel);
                     }
-                    else {
+                    else
+                    {
                         var poeDropLevelContext = statement.poeDropLevel();
                         if (poeDropLevelContext != null)
                         {
                             dropLevelCondition &= CalculateDigitsCondition(poeDropLevelContext.compareOpNullable(),
                                 poeDropLevelContext.digitsParams(), dropLevel);
                         }
-                        else {
+                        else
+                        {
                             var poeClassContext = statement.poeClass();
                             if (poeClassContext != null)
                             {
                                 poeClassCondition = poeClassContext.@params()
                                     .strValue().Any(y => className.Contains(GetRawText(y)));
                             }
-                            else {
+                            else
+                            {
                                 var poeBaseTypeContext = statement.poeBaseType();
                                 if (poeBaseTypeContext != null)
                                 {
                                     poeBaseTypeCondition = poeBaseTypeContext.@params()
                                         .strValue().Any(y => basename.Contains(GetRawText(y)));
                                 }
-                                else {
+                                else
+                                {
                                     var poeRarityContext = statement.poeRarity();
                                     if (poeRarityContext != null)
                                     {
@@ -131,42 +136,48 @@ namespace PoeHUD.Hud.Loot
                                             return compareFunc((int)itemRarity, (int)poeItemRarity);
                                         });
                                     }
-                                    else {
+                                    else
+                                    {
                                         var poeQualityContext = statement.poeQuality();
                                         if (poeQualityContext != null)
                                         {
                                             poeQualityCondition &= CalculateDigitsCondition(poeQualityContext.compareOpNullable(),
                                                 poeQualityContext.digitsParams(), quality);
                                         }
-                                        else {
+                                        else
+                                        {
                                             var poeWidthContext = statement.poeWidth();
                                             if (poeWidthContext != null)
                                             {
                                                 poeWidthCondition &= CalculateDigitsCondition(poeWidthContext.compareOpNullable(),
                                                     poeWidthContext.digitsParams(), width);
                                             }
-                                            else {
+                                            else
+                                            {
                                                 var poeHeightContext = statement.poeHeight();
                                                 if (poeHeightContext != null)
                                                 {
                                                     poeHeightCondition &= CalculateDigitsCondition(poeHeightContext.compareOpNullable(),
                                                         poeHeightContext.digitsParams(), height);
                                                 }
-                                                else {
+                                                else
+                                                {
                                                     var poeSocketsContext = statement.poeSockets();
                                                     if (poeSocketsContext != null)
                                                     {
                                                         poeSocketsCondition &= CalculateDigitsCondition(poeSocketsContext.compareOpNullable(),
                                                             poeSocketsContext.digitsParams(), numberOfSockets);
                                                     }
-                                                    else {
+                                                    else
+                                                    {
                                                         var poeLinkedSocketsContext = statement.poeLinkedSockets();
                                                         if (poeLinkedSocketsContext != null)
                                                         {
                                                             poeLinkedSocketsCondition &= CalculateDigitsCondition(poeLinkedSocketsContext.compareOpNullable(),
                                                                 poeLinkedSocketsContext.digitsParams(), largestLinkSize);
                                                         }
-                                                        else {
+                                                        else
+                                                        {
                                                             var poeSocketGroupContext = statement.poeSocketGroup();
                                                             if (poeSocketGroupContext != null)
                                                             {
@@ -177,25 +188,29 @@ namespace PoeHUD.Hud.Loot
                                                                         return IsContainSocketGroup(socketGroup, poeSocketGroup);
                                                                     });
                                                             }
-                                                            else {
+                                                            else
+                                                            {
                                                                 var poeBackgroundColorContext = statement.poeBackgroundColor();
                                                                 if (poeBackgroundColorContext != null)
                                                                 {
                                                                     backgroundColor = ToColor(poeBackgroundColorContext.color());
                                                                 }
-                                                                else {
+                                                                else
+                                                                {
                                                                     var poeBorderColorContext = statement.poeBorderColor();
                                                                     if (poeBorderColorContext != null)
                                                                     {
                                                                         borderColor = ToColor(poeBorderColorContext.color()); borderWidth = borderColor.A == 0 ? 0 : 1;
                                                                     }
-                                                                    else {
+                                                                    else
+                                                                    {
                                                                         var poeTextColorContext = statement.poeTextColor();
                                                                         if (poeTextColorContext != null)
                                                                         {
                                                                             textColor = ToColor(poeTextColorContext.color());
                                                                         }
-                                                                        else {
+                                                                        else
+                                                                        {
                                                                             var poeAlertSoundContext = statement.poeAlertSound();
                                                                             if (poeAlertSoundContext != null)
                                                                             {
