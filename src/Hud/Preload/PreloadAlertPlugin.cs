@@ -45,29 +45,36 @@ namespace PoeHUD.Hud.Preload
 
         public override void Render()
         {
-            base.Render();
-            if (!Settings.Enable || WinApi.IsKeyDown(Keys.F10)) { return; }
-            Parse();
-
-            if (alerts.Count <= 0) return;
-            Vector2 startPosition = StartDrawPointFunc();
-            Vector2 position = startPosition;
-            int maxWidth = 0;
-            foreach (Size2 size in alerts
-                .Select(preloadConfigLine => Graphics
-                    .DrawText(preloadConfigLine.Text, Settings.TextSize, position, preloadConfigLine.FastColor?
-                        .Invoke() ?? preloadConfigLine.Color ?? Settings.DefaultTextColor, FontDrawFlags.Right)))
+            try
             {
-                maxWidth = Math.Max(size.Width, maxWidth);
-                position.Y += size.Height;
+                base.Render();
+                if (!Settings.Enable || WinApi.IsKeyDown(Keys.F10)) { return; }
+                Parse();
+
+                if (alerts.Count <= 0) return;
+                Vector2 startPosition = StartDrawPointFunc();
+                Vector2 position = startPosition;
+                int maxWidth = 0;
+                foreach (Size2 size in alerts
+                    .Select(preloadConfigLine => Graphics
+                        .DrawText(preloadConfigLine.Text, Settings.TextSize, position, preloadConfigLine.FastColor?
+                            .Invoke() ?? preloadConfigLine.Color ?? Settings.DefaultTextColor, FontDrawFlags.Right)))
+                {
+                    maxWidth = Math.Max(size.Width, maxWidth);
+                    position.Y += size.Height;
+                }
+                if (maxWidth <= 0) return;
+                var bounds = new RectangleF(startPosition.X - maxWidth - 45, startPosition.Y - 5,
+                    maxWidth + 50, position.Y - startPosition.Y + 10);
+                Graphics.DrawImage("preload-start.png", bounds, Settings.BackgroundColor);
+                Graphics.DrawImage("preload-end.png", bounds, Settings.BackgroundColor);
+                Size = bounds.Size;
+                Margin = new Vector2(0, 5);
             }
-            if (maxWidth <= 0) return;
-            var bounds = new RectangleF(startPosition.X - maxWidth - 45, startPosition.Y - 5,
-                maxWidth + 50, position.Y - startPosition.Y + 10);
-            Graphics.DrawImage("preload-start.png", bounds, Settings.BackgroundColor);
-            Graphics.DrawImage("preload-end.png", bounds, Settings.BackgroundColor);
-            Size = bounds.Size;
-            Margin = new Vector2(0, 5);
+            catch
+            {
+                // do nothing
+            }
         }
 
         private void ResetArea()
@@ -90,6 +97,7 @@ namespace PoeHUD.Hud.Preload
             {
                 ResetArea();
             }
+            List<string> LoadedFileNames = new List<string>();
             Memory memory = GameController.Memory;
             int pFileRoot = memory.ReadInt(memory.AddressOfProcess + memory.offsets.FileRoot);
             int count = memory.ReadInt(pFileRoot + 0xC); // check how many files are loaded
@@ -120,8 +128,15 @@ namespace PoeHUD.Hud.Preload
                     if (memory.ReadInt(listIterator + 0x8) == 0 || memory.ReadInt(listIterator + 0xC, 0x24) != areaChangeCount) continue;
                     string text = memory.ReadStringU(memory.ReadInt(listIterator + 8));
                     if (text.Contains('@')) { text = text.Split('@')[0]; }
+                    if (!LoadedFileNames.Contains(text))
+                        LoadedFileNames.Add(text);
                     CheckForPreload(text);
                 }
+                // delete the dump file
+                if (System.IO.File.Exists("LoadedFileNames.txt"))
+                    System.IO.File.Delete("LoadedFileNames.txt");
+                // populate the dump file
+                System.IO.File.WriteAllLines("LoadedFileNames.txt", LoadedFileNames);
             }
             lastCount = count;
         }
@@ -133,7 +148,7 @@ namespace PoeHUD.Hud.Preload
                 alerts.Add(alertStrings[text]);
                 return;
             }
-            if (text.Contains("Metadata/Terrain/Doodads/vaal_sidearea_effects/soulcoaster.ao"))
+            if (text.Contains("human_heart"))
             {
                 if (Settings.CorruptedTitle)
                 {
@@ -183,7 +198,7 @@ namespace PoeHUD.Hud.Preload
                 alerts.Add(perandus_alert);
                 return;
             }
-            if (Settings.PerandusBoxes && !foundSpecificPerandusChest && text.StartsWith("Metadata/Chests/PerandusChests"))
+            if (Settings.PerandusBoxes && !foundSpecificPerandusChest && text.StartsWith("Metadata/Chests/PerandusChests/PerandusChest.ao"))
             {
                 alerts.Add(new PreloadConfigLine { Text = "Unknown Perandus Chest", FastColor = () => Settings.PerandusChestStandard });
             }
