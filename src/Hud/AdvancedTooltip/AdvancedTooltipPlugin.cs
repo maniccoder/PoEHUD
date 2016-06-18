@@ -57,13 +57,26 @@ namespace PoeHUD.Hud.AdvancedTooltip
                 if (tooltip == null || poeEntity.Address == 0 || !poeEntity.IsValid) { return; }
                 RectangleF tooltipRect = tooltip.GetClientRect();
                 var modsComponent = poeEntity.GetComponent<Mods>();
-                if (itemEntity == null || itemEntity.Id != poeEntity.Id)
+                int id = 0;
+                if (inventoryItemIcon.ToolTipType == ToolTipType.InventoryItem)
+                {
+                    id = poeEntity.InventoryId;
+                }
+                else
+                {
+                    id = poeEntity.Id;
+                }
+                if (itemEntity == null || itemEntity.Id != id)
                 {
                     List<ItemMod> itemMods = modsComponent.ItemMods;
-                    mods = itemMods.Select(item => new ModValue(item, GameController.Files, modsComponent.ItemLevel)).ToList(); // fix when FileRoot is known
+                    mods = itemMods.Select(item => new ModValue(item, GameController.Files, modsComponent.ItemLevel)).ToList();
                     itemEntity = poeEntity;
                 }
 
+                foreach (string tier in from item in mods where item.CouldHaveTiers() && item.Tier == 1 select " \u2605 ")
+                {
+                    Graphics.DrawText(tier, 18, tooltipRect.TopLeft.Translate(0, 56), Settings.ItemMods.T1Color);
+                }
                 if (Settings.ItemLevel.Enable)
                 {
                     string itemLevel = Convert.ToString(modsComponent.ItemLevel);
