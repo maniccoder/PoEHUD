@@ -95,6 +95,9 @@ namespace PoeHUD.Hud.Loot
 
         public override void Render()
         {
+            IngameUIElements ui = GameController.Game.IngameState.IngameUi;
+            int startAddy = GameController.Game.IngameState.IngameUi.Address;
+
             if (!holdKey && WinApi.IsKeyDown(Keys.F10))
             {
                 holdKey = true;
@@ -189,6 +192,7 @@ namespace PoeHUD.Hud.Loot
                 }
                 else
                 {
+                    /*
                     ItemUsefulProperties props = initItem(item);
                     if (props == null)
                         return;
@@ -198,6 +202,7 @@ namespace PoeHUD.Hud.Loot
                         PrepareForDrawingAndPlaySound(entity, drawStyle);
                     }
                     Settings.Alternative.Value = false;
+                    */
                 }
             }
         }

@@ -60,7 +60,7 @@ namespace PoeHUD.Hud.Preload
                 holdKey = false;
             }
             if (!Settings.Enable) { return; }
-            Parse();
+            //Parse();
 
             if (alerts.Count <= 0) return;
             Vector2 startPosition = StartDrawPointFunc();

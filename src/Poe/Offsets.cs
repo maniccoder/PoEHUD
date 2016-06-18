@@ -1,12 +1,13 @@
 using PoeHUD.Framework;
 using PoeHUD.Models;
+using System.IO;
 
 namespace PoeHUD.Poe
 {
     public class Offsets
     {
-        public static Offsets Regular = new Offsets { IgsOffset = 0, IgsDelta = 0, ExeName = "PathOfExile", AreaChangeCount = 0x9C04C8 };
-        public static Offsets Steam = new Offsets { IgsOffset = 0x1C, IgsDelta = 0x4, ExeName = "PathOfExileSteam", AreaChangeCount = 0x9CB4C8 };
+        public static Offsets Regular = new Offsets { IgsOffset = 0, IgsDelta = 0, ExeName = "PathOfExile", AreaChangeCount = 0xA16CE8 };
+        public static Offsets Steam = new Offsets { IgsOffset = 0x1C, IgsDelta = 0x4, ExeName = "PathOfExileSteam" };
         /* offsets from some older steam version:
 		 	Base = 8841968;
 			FileRoot = 8820476;
@@ -94,16 +95,13 @@ namespace PoeHUD.Poe
 
         private static readonly Pattern fileRootPattern = new Pattern(new byte[]
         {
-            0x45, 0xFC, 0x05, 0xE8, 0x00, 0x00, 0x00, 0x00,
-            0x83, 0xC4, 0x08, 0x68, 0x00, 0x00, 0x00, 0x00,
-            0x51, 0x8d, 0x4d, 0xE0, 0xE8
-        }, "xxxx????xxxx????xxxxx");
-
-        private static readonly Pattern areaChangePattern = new Pattern(new byte[]
-        {
-            139, 9, 137, 8, 133, 201, 116, 12, 255, 65, 40, 139, 21, 0, 0, 0,
-            0, 137, 81, 36, 195, 204
-        }, "xxxxxxxxxxxxx????xxxxx");
+            0xC6, 0x45, 0xFC, 0x00, 0xE8, 0x00, 0x00, 0x00,
+            0x00, 0x83, 0xC4, 0x00, 0x68, 0x00, 0x00, 0x00,
+            0x00, 0x51, 0x8d, 0x4d, 0x00, 0xE8
+        }, "xxx?x????xx?x????xxx?x");
+        private static readonly Pattern areaChangePattern = new Pattern
+            (@"\x8b\x88\x00\x00\x00\x00\xe8\x00\x00\x00\x00\xff\x05\x00\x00\x00\x00\xbe\x00\x00\x00\x00\x8b\x0e\x85\xc9",
+                "xx????x????xx????x????xxxx");
 
         /*
 			80 7E 48 00             cmp     byte ptr [esi+48h], 0
@@ -132,16 +130,30 @@ namespace PoeHUD.Poe
         public int FileRoot { get; private set; }
         public int IgsDelta { get; private set; }
         public int IgsOffset { get; private set; }
+        public int GarenaTWDelta = 0;
         //public int InGameOffset { get; private set; }
 
         public int IgsOffsetDelta => IgsOffset + IgsDelta;
 
         public void DoPatternScans(Memory m)
         {
-            int[] array = m.FindPatterns(basePtrPattern, fileRootPattern/*, areaChangePattern, inGameOffsetPattern*/);
+            if (System.IO.File.Exists("config/GarenaTWDelta.txt"))
+            {
+                using (StreamReader reader = new StreamReader("config/GarenaTWDelta.txt"))
+                {
+                    string strDelta = reader.ReadLine();
+                    // try to convert the contents of the first line to an int
+                    if (!int.TryParse(strDelta, out GarenaTWDelta))
+                        System.Console.WriteLine("Failed to convert the contents of config/GarenaTWDelta.txt to an int");
+                }
+            }
+            int[] array = m.FindPatterns(basePtrPattern);
             Base = m.ReadInt(m.AddressOfProcess + array[0] + 0x0F) - m.AddressOfProcess;
             System.Console.WriteLine("Base Address: " + (Base + m.AddressOfProcess).ToString("x8"));
-            FileRoot = array[1] + 0x0C;
+            //FileRoot = array[1] + 0x0D;
+            //AreaChangeCount = m.ReadInt(m.AddressOfProcess + AreaChangeOffset) - m.AddressOfProcess;
+            System.Console.WriteLine("AreaChangeCount Address: " + (AreaChangeCount + m.AddressOfProcess).ToString("x8"));
+            System.Console.WriteLine("AreaChangeCount: " + m.ReadInt(AreaChangeCount + m.AddressOfProcess).ToString("x8"));
         }
     }
 }
