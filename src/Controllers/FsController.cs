@@ -19,15 +19,14 @@ namespace PoeHUD.Controllers
 
         public FsController(Memory mem)
         {
-            files = new Dictionary<string, int>();
-/*            this.mem = mem;
+            this.mem = mem;
             files = GetAllFiles();
             ItemClassesDisplay = new ItemClassesDisplay();
             BaseItemTypes = new BaseItemTypes(mem, FindFile("Data/BaseItemTypes.dat"), ItemClassesDisplay);
             Tags = new TagsDat(mem, FindFile("Data/Tags.dat"));
             Stats = new StatsDat(mem, FindFile("Data/Stats.dat"));
             Mods = new ModsDat(mem, FindFile("Data/Mods.dat"), Stats, Tags);
-            */
+        }
 
         public Dictionary<string, int> GetAllFiles()
         {
