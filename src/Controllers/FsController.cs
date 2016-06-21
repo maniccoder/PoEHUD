@@ -21,31 +21,34 @@ namespace PoeHUD.Controllers
         {
             files = new Dictionary<string, int>();
 /*            this.mem = mem;
+            files = GetAllFiles();
             ItemClassesDisplay = new ItemClassesDisplay();
             BaseItemTypes = new BaseItemTypes(mem, FindFile("Data/BaseItemTypes.dat"), ItemClassesDisplay);
             Tags = new TagsDat(mem, FindFile("Data/Tags.dat"));
             Stats = new StatsDat(mem, FindFile("Data/Stats.dat"));
             Mods = new ModsDat(mem, FindFile("Data/Mods.dat"), Stats, Tags);
             */
+
+        public Dictionary<string, int> GetAllFiles()
+        {
+            var fileList = new Dictionary<string, int>();
+            int fileRoot = mem.AddressOfProcess + mem.offsets.FileRoot;
+            int count = mem.ReadInt(fileRoot + 0x8);
+            int start = mem.ReadInt(fileRoot + 0xC, 0x18);
+            for (int i = 0; i < count; i++)
+            {
+                start = mem.ReadInt(start);
+                var str = mem.ReadStringU(mem.ReadInt(start + 8), 512);
+                if (!fileList.ContainsKey(str))
+                    fileList.Add(str, start);
+            }
+            return fileList;
         }
 
         public int FindFile(string name)
         {
             try
             {
-                if (!(files.ContainsKey(name) || isLoaded))
-                {
-                    int num = mem.ReadInt(mem.AddressOfProcess + mem.offsets.FileRoot, 8);
-                    for (int num2 = mem.ReadInt(num); num2 != num; num2 = mem.ReadInt(num2))
-                    {
-                        string text = mem.ReadStringU(mem.ReadInt(num2 + 0x8), 512);
-                        if (text.Contains("."))
-                        {
-                            files.Add(text, mem.ReadInt(num2 + 12));
-                        }
-                    }
-                    isLoaded = true;
-                }
                 return files[name];
             }
             catch (KeyNotFoundException)
