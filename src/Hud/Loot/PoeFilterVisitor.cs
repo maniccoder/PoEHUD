@@ -34,7 +34,6 @@ namespace PoeHUD.Hud.Loot
 
         public override AlertDrawStyle VisitMain(PoeFilterParser.Model.PoeFilterParser.MainContext context)
         {
-            /*
             if (entity == null || gameController == null || gameController.Files == null || gameController.Files.BaseItemTypes == null)
                 return null;
             var filterEnabled = settings.WithBorder || settings.WithSound;
@@ -234,7 +233,6 @@ namespace PoeHUD.Hud.Loot
                     return new AlertDrawStyle(text, textColor, borderWidth, borderColor, backgroundColor, iconIndex);
                 }
             }
-            */
             return null;
         }
 

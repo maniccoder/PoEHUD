@@ -57,7 +57,6 @@ namespace PoeHUD.Hud.AdvancedTooltip
                 if (tooltip == null || poeEntity.Address == 0 || !poeEntity.IsValid) { return; }
                 RectangleF tooltipRect = tooltip.GetClientRect();
                 var modsComponent = poeEntity.GetComponent<Mods>();
-                /*
                 int id = 0;
                 if (inventoryItemIcon.ToolTipType == ToolTipType.InventoryItem)
                 {
@@ -78,7 +77,6 @@ namespace PoeHUD.Hud.AdvancedTooltip
                 {
                     Graphics.DrawText(tier, 18, tooltipRect.TopLeft.Translate(0, 56), Settings.ItemMods.T1Color);
                 }
-                */
                 if (Settings.ItemLevel.Enable)
                 {
                     string itemLevel = Convert.ToString(modsComponent.ItemLevel);
@@ -86,7 +84,6 @@ namespace PoeHUD.Hud.AdvancedTooltip
                     Graphics.DrawText(itemLevel, Settings.ItemLevel.TextSize, tooltipRect.TopLeft.Translate(2, 2), Settings.ItemLevel.TextColor);
                     Graphics.DrawImage("menu-colors.png", new RectangleF(tooltipRect.TopLeft.X - 2, tooltipRect.TopLeft.Y - 2, imageSize, imageSize), Settings.ItemLevel.BackgroundColor);
                 }
-                /*
                 if (Settings.ItemMods.Enable)
                 {
                     float bottomTooltip = tooltipRect.Bottom + 5;
@@ -98,7 +95,6 @@ namespace PoeHUD.Hud.AdvancedTooltip
                         Graphics.DrawBox(modsRect, Settings.ItemMods.BackgroundColor);
                     }
                 }
-                */
                 if (Settings.WeaponDps.Enable && poeEntity.HasComponent<Weapon>())
                 {
                     DrawWeaponDps(tooltipRect);

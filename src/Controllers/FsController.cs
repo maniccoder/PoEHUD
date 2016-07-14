@@ -27,19 +27,19 @@ namespace PoeHUD.Controllers
             Stats = new StatsDat(mem, FindFile("Data/Stats.dat"));
             Mods = new ModsDat(mem, FindFile("Data/Mods.dat"), Stats, Tags);
         }
-            
+
         public Dictionary<string, int> GetAllFiles()
         {
             var fileList = new Dictionary<string, int>();
             int fileRoot = mem.AddressOfProcess + mem.offsets.FileRoot;
-            int start = mem.ReadInt(fileRoot + 0x4);
-            for (int CurrFile = mem.ReadInt(start); CurrFile != start && CurrFile != 0; CurrFile = mem.ReadInt(CurrFile))
+            int count = mem.ReadInt(fileRoot + 0x8);
+            int start = mem.ReadInt(fileRoot + 0xC, 0x18);
+            for (int i = 0; i < count; i++)
             {
-                var str = mem.ReadStringU(mem.ReadInt(CurrFile + 8), 512);
+                start = mem.ReadInt(start);
+                var str = mem.ReadStringU(mem.ReadInt(start + 8), 512);
                 if (!fileList.ContainsKey(str))
-                {
-                    fileList.Add(str, mem.ReadInt(CurrFile + 0xC));
-                }
+                    fileList.Add(str, start);
             }
             return fileList;
         }

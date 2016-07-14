@@ -192,7 +192,6 @@ namespace PoeHUD.Hud.Loot
                 }
                 else
                 {
-                    /*
                     ItemUsefulProperties props = initItem(item);
                     if (props == null)
                         return;
@@ -202,7 +201,6 @@ namespace PoeHUD.Hud.Loot
                         PrepareForDrawingAndPlaySound(entity, drawStyle);
                     }
                     Settings.Alternative.Value = false;
-                    */
                 }
             }
         }
