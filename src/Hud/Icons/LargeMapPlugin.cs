@@ -46,6 +46,7 @@ namespace PoeHUD.Hud.Icons
 
                 foreach (MapIcon icon in getIcons().Where(x => x.IsVisible()))
                 {
+                    
                     float iconZ = icon.EntityWrapper.GetComponent<Render>().Z;
                     Vector2 point = screenCenter
                         + MapIcon.DeltaInWorldToMinimapDelta(icon.WorldPosition - playerPos, diag, scale, (iconZ - posZ) / 20);

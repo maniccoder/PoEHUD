@@ -40,7 +40,8 @@ namespace PoeHUD.Hud
 
         public void Draw(Graphics graphics, RectangleF rectangle)
         {
-            graphics.DrawImage(fileName, rectangle, color);
+            if (color != Color.Magenta)
+                graphics.DrawImage(fileName, rectangle, color);
         }
 
         public string FileName

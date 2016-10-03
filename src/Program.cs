@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Tools;
 
 namespace PoeHUD
 {
@@ -45,6 +44,7 @@ namespace PoeHUD
             {
                 var errorText = "Program exited with message:\n " + exceptionArgs.ExceptionObject;
                 File.AppendAllText("Error.log", $"{DateTime.Now.ToString("g")} {errorText}\r\n{new string('-', 30)}\r\n");
+                MessageBox.Show("Error");
                 MessageBox.Show(errorText);
                 Environment.Exit(1);
             };

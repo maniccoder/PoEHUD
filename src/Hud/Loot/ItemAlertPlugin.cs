@@ -133,7 +133,8 @@ namespace PoeHUD.Hud.Loot
                 foreach (KeyValuePair<EntityWrapper, AlertDrawStyle> kv in currentAlerts.Where(x => x.Key != null && x.Key.Address != 0 && x.Key.IsValid))
                 {
                     string text = GetItemName(kv);
-                    if (text == null)
+                    Console.WriteLine(kv.Value.TextColor);
+                    if (text == null || kv.Value.TextColor == Color.Magenta)
                     {
                         continue;
                     }
