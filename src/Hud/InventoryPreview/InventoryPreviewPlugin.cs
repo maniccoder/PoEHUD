@@ -86,7 +86,13 @@ namespace PoeHUD.Hud.InventoryPreview
         private void AddItems()
         {
             var inventoryZone = GetInventoryZone();
+
+            //MessageBox.Show(inventoryZone.Address.ToString("x"));
+
             RectangleF inventoryZoneRectangle = inventoryZone.GetClientRect();
+
+            //MessageBox.Show(inventoryZoneRectangle.ToString());
+
             var oneCellSize = GetOneCellSize(inventoryZoneRectangle);
             foreach (Element itemElement in inventoryZone.Children)
             {
@@ -114,7 +120,7 @@ namespace PoeHUD.Hud.InventoryPreview
 
         private Element GetInventoryZone()
         {
-            return ingameUiElements.ReadObject<Element>(ingameUiElements.InventoryPanel.Address + Poe.Element.OffsetBuffers + 0x2EC);
+            return ingameUiElements.ReadObject<Element>(ingameUiElements.InventoryPanel.Address + Poe.Element.OffsetBuffers + 0x42C);
         }
 
         private int GetCellSize(bool extendsSide)

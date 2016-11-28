@@ -30,7 +30,7 @@ namespace PoeHUD.Hud.Loot
         private readonly Dictionary<EntityWrapper, AlertDrawStyle> currentAlerts;
         private readonly HashSet<CraftingBase> craftingBases;
         private readonly HashSet<string> currencyNames;
-        private Dictionary<int, ItemsOnGroundLabelElement> currentLabels;
+        private Dictionary<long, ItemsOnGroundLabelElement> currentLabels;
         private PoeFilterVisitor visitor;
         public static bool holdKey;
         private readonly SettingsHub settingsHub;
@@ -41,7 +41,7 @@ namespace PoeHUD.Hud.Loot
             this.settingsHub = settingsHub;
             playedSoundsCache = new HashSet<long>();
             currentAlerts = new Dictionary<EntityWrapper, AlertDrawStyle>();
-            currentLabels = new Dictionary<int, ItemsOnGroundLabelElement>();
+            currentLabels = new Dictionary<long, ItemsOnGroundLabelElement>();
             currencyNames = LoadCurrency();
             craftingBases = LoadCraftingBases();
             GameController.Area.OnAreaChange += OnAreaChange;
@@ -133,8 +133,10 @@ namespace PoeHUD.Hud.Loot
                 foreach (KeyValuePair<EntityWrapper, AlertDrawStyle> kv in currentAlerts.Where(x => x.Key != null && x.Key.Address != 0 && x.Key.IsValid))
                 {
                     string text = GetItemName(kv);
-                    Console.WriteLine(kv.Value.TextColor);
-                    if (text == null || kv.Value.TextColor == Color.Magenta)
+
+                  
+
+                    if (text == null)
                     {
                         continue;
                     }
@@ -143,19 +145,37 @@ namespace PoeHUD.Hud.Loot
                     if (!currentLabels.TryGetValue(kv.Key.Address, out entityLabel))
                     {
                         shouldUpdate = true;
+                        DebugPlug.DebugPlugin.LogMsg("Go update: " + text, -2);
                     }
                     else
                     {
                         if (Settings.ShowText && (!Settings.HideOthers || entityLabel.CanPickUp || entityLabel.MaxTimeForPickUp.TotalSeconds == 0))
+                        {
+                            DebugPlug.DebugPlugin.LogMsg("Draw: " + text, -2);
                             position = DrawText(playerPos, position, BOTTOM_MARGIN, kv, text);
+                        }
+                        else
+                        {
+                            DebugPlug.DebugPlugin.LogMsg("Can't Draw: " + text, -2);
+                        }
                     }
+
+
                 }
                 Size = new Size2F(0, position.Y); //bug absent width
 
                 if (shouldUpdate)
                 {
+
+                    foreach(var label in GameController.Game.IngameState.IngameUi.ItemsOnGroundLabels)
+                    {
+                        DebugPlug.DebugPlugin.LogMsg("ItemsOnGroundLabel Addr: " + label.Address.ToString("x"), -2);
+                    }
+
                     currentLabels = GameController.Game.IngameState.IngameUi.ItemsOnGroundLabels
                         .GroupBy(y => y.ItemOnGround.Address).ToDictionary(y => y.Key, y => y.First());
+
+
                 }
             }
         }
@@ -178,7 +198,9 @@ namespace PoeHUD.Hud.Loot
             if (Settings.Enable && entity != null && !GameController.Area.CurrentArea.IsTown
                 && !currentAlerts.ContainsKey(entity) && entity.HasComponent<WorldItem>())
             {
+               
                 IEntity item = entity.GetComponent<WorldItem>().ItemEntity;
+
                 if (Settings.Alternative && !string.IsNullOrEmpty(Settings.FilePath))
                 {
                     var result = visitor.Visit(item);
@@ -189,10 +211,11 @@ namespace PoeHUD.Hud.Loot
                     }
                 }
                 else
-                {
+                {               
                     ItemUsefulProperties props = initItem(item);
                     if (props == null)
                         return;
+                
                     if (props.ShouldAlert(currencyNames, Settings))
                     {
                         AlertDrawStyle drawStyle = props.GetDrawStyle();
@@ -208,9 +231,9 @@ namespace PoeHUD.Hud.Loot
             currentAlerts.Add(entity, drawStyle);
             CurrentIcons[entity] = new MapIcon(entity, new HudTexture("currency.png", drawStyle.TextColor), () => Settings.ShowItemOnMap, Settings.LootIcon);
 
-            if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
+            if (Settings.PlaySound && !playedSoundsCache.Contains(entity.Id))
             {
-                playedSoundsCache.Add(entity.LongId);
+                playedSoundsCache.Add(entity.Id);
                 Sounds.AlertSound.Play(Settings.SoundVolume);
             }
         }
@@ -289,7 +312,7 @@ namespace PoeHUD.Hud.Loot
             return hashSet;
         }
 
-        private bool DrawBorder(int entityAddress)
+        private bool DrawBorder(long entityAddress)
         {
             IngameUIElements ui = GameController.Game.IngameState.IngameUi;
             ItemsOnGroundLabelElement entityLabel;
@@ -367,6 +390,7 @@ namespace PoeHUD.Hud.Loot
             BaseItemType bit = GameController.Files.BaseItemTypes.Translate(item.Path);
             if (bit == null)
                 return null;
+
             string name = bit.BaseName;
             CraftingBase craftingBase = new CraftingBase();
             if (Settings.Crafting)

@@ -5,15 +5,15 @@ namespace PoeHUD.Poe.Elements
 {
     public class ItemsOnGroundLabelElement : Element
     {
-        private readonly Lazy<int> labelInfo;
+        private readonly Lazy<long> labelInfo;
 
         public ItemsOnGroundLabelElement()
         {
-            labelInfo = new Lazy<int>(GetLabelInfo);
+            labelInfo = new Lazy<long>(GetLabelInfo);
         }
 
-        public Entity ItemOnGround => ReadObject<Entity>(Address + 0xC);
-        public Element Label => ReadObject<Element>(Address + 0x8);
+        public Entity ItemOnGround => ReadObject<Entity>(Address + 0x18);
+        public Element Label => ReadObject<Element>(Address + 0x10);//Not sure
         public bool CanPickUp => labelInfo.Value == 0;
 
         public TimeSpan TimeLeft
@@ -36,17 +36,18 @@ namespace PoeHUD.Poe.Elements
         {
             get
             {
-                int address = M.ReadInt(Address + OffsetBuffers + 0x1DC);
-                for (int nextAddress = M.ReadInt(address); nextAddress != address; nextAddress = M.ReadInt(nextAddress))
+                long address = M.ReadLong(Address + OffsetBuffers + 0x30C);
+
+                for (long nextAddress = M.ReadLong(address); nextAddress != address; nextAddress = M.ReadLong(nextAddress))
                 {
                     yield return GetObject<ItemsOnGroundLabelElement>(nextAddress);
                 }
             }
         }
 
-        private int GetLabelInfo()
+        private long GetLabelInfo()
         {
-            return Label.Address != 0 ? M.ReadInt(Label.Address + OffsetBuffers + 0x454) : 0;
+            return Label.Address != 0 ? M.ReadLong(Label.Address + OffsetBuffers + 0x454) : 0;
         }
     }
 }

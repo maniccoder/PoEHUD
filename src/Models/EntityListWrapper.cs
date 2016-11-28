@@ -10,12 +10,12 @@ namespace PoeHUD.Models
     {
         private readonly GameController gameController;
         private readonly HashSet<string> ignoredEntities;
-        private Dictionary<int, EntityWrapper> entityCache;
+        private Dictionary<long, EntityWrapper> entityCache;
 
         public EntityListWrapper(GameController gameController)
         {
             this.gameController = gameController;
-            entityCache = new Dictionary<int, EntityWrapper>();
+            entityCache = new Dictionary<long, EntityWrapper>();
             ignoredEntities = new HashSet<string>();
             gameController.Area.OnAreaChange += OnAreaChanged;
         }
@@ -61,28 +61,28 @@ namespace PoeHUD.Models
                 return;
 
             Dictionary<int, Entity> newEntities = gameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary;
-            var newCache = new Dictionary<int, EntityWrapper>();
+            var newCache = new Dictionary<long, EntityWrapper>();
             foreach (var keyEntity in newEntities)
             {
                 if (!keyEntity.Value.IsValid)
                     continue;
 
-                int entityAddress = keyEntity.Key;
-                string uniqueEntityName = keyEntity.Value.Path + entityAddress;
+                long entityID = keyEntity.Key;
+                string uniqueEntityName = keyEntity.Value.Path + entityID;
 
                 if (ignoredEntities.Contains(uniqueEntityName))
                     continue;
 
-                if (entityCache.ContainsKey(entityAddress) && entityCache[entityAddress].IsValid)
+                if (entityCache.ContainsKey(entityID) && entityCache[entityID].IsValid)
                 {
-                    newCache.Add(entityAddress, entityCache[entityAddress]);
-                    entityCache[entityAddress].IsInList = true;
-                    entityCache.Remove(entityAddress);
+                    newCache.Add(entityID, entityCache[entityID]);
+                    entityCache[entityID].IsInList = true;
+                    entityCache.Remove(entityID);
                     continue;
                 }
 
                 var entity = new EntityWrapper(gameController, keyEntity.Value);
-                if (entity.Path.StartsWith("Metadata/Effects") || ((entityAddress & 0x80000000L) != 0L) ||
+                if (entity.Path.StartsWith("Metadata/Effects") || ((entityID & 0x80000000L) != 0L) ||
                     entity.Path.StartsWith("Metadata/Monsters/Daemon"))
                 {
                     ignoredEntities.Add(uniqueEntityName);
@@ -90,7 +90,7 @@ namespace PoeHUD.Models
                 }
 
                 EntityAdded?.Invoke(entity);
-                newCache.Add(entityAddress, entity);
+                newCache.Add(entityID, entity);
             }
             RemoveOldEntitiesFromCache();
             entityCache = newCache;
@@ -98,7 +98,7 @@ namespace PoeHUD.Models
 
         private void UpdatePlayer()
         {
-            int address = gameController.Game.IngameState.Data.LocalPlayer.Address;
+            long address = gameController.Game.IngameState.Data.LocalPlayer.Address;
             if ((player == null) || (player.Address != address))
             {
                 player = new EntityWrapper(gameController, address);
@@ -119,7 +119,7 @@ namespace PoeHUD.Models
             while (true)
             {
                 hashSet.Add(num);
-                if (gameController.Memory.ReadInt(num + 8) == entity.Address)
+                if (gameController.Memory.ReadInt(num + 0x10) == entity.Address)
                 {
                     break;
                 }
@@ -129,7 +129,7 @@ namespace PoeHUD.Models
                     return null;
                 }
             }
-            return gameController.Game.ReadObject<EntityLabel>(num + 12);
+            return gameController.Game.ReadObject<EntityLabel>(num + 0x18);
         }
     }
 }

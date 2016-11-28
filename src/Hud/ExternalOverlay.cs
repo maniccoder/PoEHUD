@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using Graphics2D = PoeHUD.Hud.UI.Graphics;
 using Rectangle = System.Drawing.Rectangle;
+using PoeHUD.DebugPlug;
 
 namespace PoeHUD.Hud
 {
@@ -127,7 +128,7 @@ namespace PoeHUD.Hud
         {
             SettingsHub.Save(settings);
             plugins.ForEach(plugin => plugin.Dispose());
-            graphics.Dispose();
+            graphics.Dispose();  
         }
 
         private void OnDeactivate(object sender, EventArgs e)
@@ -152,6 +153,7 @@ namespace PoeHUD.Hud
             leftPanel.AddChildren(new PreloadAlertPlugin(gameController, graphics, settings.PreloadAlertSettings, settings));
             leftPanel.AddChildren(new KillCounterPlugin(gameController, graphics, settings.KillCounterSettings));
             leftPanel.AddChildren(new DpsMeterPlugin(gameController, graphics, settings.DpsMeterSettings));
+            leftPanel.AddChildren(new DebugPlugin(gameController, graphics, new DebugPluginSettings(), settings));
 
             var horizontalPanel = new PluginPanel(Direction.Left);
             leftPanel.AddChildren(horizontalPanel);
@@ -173,7 +175,7 @@ namespace PoeHUD.Hud
             graphics.Render += OnRender;
             await Task.Run(() => graphics.RenderLoop());
         }
-
+        
         private void OnRender()
         {
             if (gameController.InGame && WinApi.IsForegroundWindow(gameHandle) && !gameController.Game.IngameState.IngameUi.TreePanel.IsVisible && !gameController.Game.IngameState.IngameUi.AtlasPanel.IsVisible)

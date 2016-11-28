@@ -57,25 +57,31 @@ namespace PoeHUD.Hud.AdvancedTooltip
                     return;
                 Element tooltip = inventoryItemIcon.Tooltip;
                 Entity poeEntity = inventoryItemIcon.Item;
+
                 if (tooltip == null || poeEntity.Address == 0 || !poeEntity.IsValid) { return; }
                 RectangleF tooltipRect = tooltip.GetClientRect();
+
+               
+
                 var modsComponent = poeEntity.GetComponent<Mods>();
-                int id = 0;
+                long id = 0;
                 if (inventoryItemIcon.ToolTipType == ToolTipType.InventoryItem)
                 {
+               
                     id = poeEntity.InventoryId;
                 }
                 else
                 {
                     id = poeEntity.Id;
                 }
+
                 if (itemEntity == null || itemEntity.Id != id)
                 {
                     List<ItemMod> itemMods = modsComponent.ItemMods;
                     mods = itemMods.Select(item => new ModValue(item, GameController.Files, modsComponent.ItemLevel)).ToList();
                     itemEntity = poeEntity;
                 }
-
+              
                 foreach (string tier in from item in mods where item.CouldHaveTiers() && item.Tier == 1 select " \u2605 ")
                 {
                     Graphics.DrawText(tier, 18, tooltipRect.TopLeft.Translate(0, 56), Settings.ItemMods.T1Color);
@@ -167,11 +173,12 @@ namespace PoeHUD.Hud.AdvancedTooltip
         private void DrawWeaponDps(RectangleF clientRect)
         {
             var weapon = itemEntity.GetComponent<Weapon>();
-            float aSpd = 1000f / weapon.AttackTime;
+            float aSpd = (float)Math.Round(1000f / weapon.AttackTime, 2);
             int cntDamages = Enum.GetValues(typeof(DamageType)).Length;
             var doubleDpsPerStat = new float[cntDamages];
             float physDmgMultiplier = 1;
-            doubleDpsPerStat[(int)DamageType.Physical] = weapon.DamageMax + weapon.DamageMin;
+            int PhysHi = weapon.DamageMax;
+            int PhysLo = weapon.DamageMin;
             foreach (ModValue mod in mods)
             {
                 for (int iStat = 0; iStat < 4; iStat++)
@@ -196,8 +203,10 @@ namespace PoeHUD.Hud.AdvancedTooltip
                             break;
 
                         case "local_minimum_added_physical_damage":
+                            PhysLo += value;
+                            break;
                         case "local_maximum_added_physical_damage":
-                            doubleDpsPerStat[(int)DamageType.Physical] += value;
+                            PhysHi += value;
                             break;
 
                         case "local_minimum_added_fire_damage":
@@ -235,13 +244,12 @@ namespace PoeHUD.Hud.AdvancedTooltip
                 settings.DmgLightningColor,
                 settings.DmgChaosColor
             };
-            doubleDpsPerStat[(int)DamageType.Physical] *= physDmgMultiplier;
-            int quality = itemEntity.GetComponent<Quality>().ItemQuality;
-            if (quality > 0)
-            {
-                doubleDpsPerStat[(int)DamageType.Physical] += (weapon.DamageMax + weapon.DamageMin) * quality / 100f;
-            }
+            physDmgMultiplier += itemEntity.GetComponent<Quality>().ItemQuality / 100f;
+            PhysLo = (int)Math.Round(PhysLo * physDmgMultiplier);
+            PhysHi = (int)Math.Round(PhysHi * physDmgMultiplier);
+            doubleDpsPerStat[(int)DamageType.Physical] = PhysLo + PhysHi;
 
+            aSpd = (float)Math.Round(aSpd, 2);
             float pDps = doubleDpsPerStat[(int)DamageType.Physical] / 2 * aSpd;
             float eDps = 0;
             int firstEmg = 0;

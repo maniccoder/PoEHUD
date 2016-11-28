@@ -11,8 +11,8 @@ namespace PoeHUD.Models
 {
     public class EntityWrapper : IEntity
     {
-        private readonly int cachedId;
-        private readonly Dictionary<string, int> components;
+        private readonly long cachedId;
+        private readonly Dictionary<string, long> components;
         private readonly GameController gameController;
         private readonly Entity internalEntity;
         public bool IsInList = true;
@@ -24,17 +24,19 @@ namespace PoeHUD.Models
             components = internalEntity.GetComponents();
             Path = internalEntity.Path;
             cachedId = internalEntity.Id;
-            LongId = internalEntity.LongId;
+            LongId = internalEntity.Id;
         }
 
-        public EntityWrapper(GameController Poe, int address) : this(Poe, Poe.Game.GetObject<Entity>(address))
+        public EntityWrapper(GameController Poe, long address) : this(Poe, Poe.Game.GetObject<Entity>(address))
         {
         }
 
+        public Entity InternalEntity => internalEntity.Address == 0 ? null : internalEntity;
+
         public string Path { get; }
         public bool IsValid => internalEntity.IsValid && IsInList && cachedId == internalEntity.Id;
-        public int Address => internalEntity.Address;
-        public int Id => cachedId;
+        public long Address => internalEntity.Address;
+        public long Id => cachedId;
         public bool IsHostile => internalEntity.IsHostile;
         public long LongId { get; }
         public bool IsAlive => GetComponent<Life>().CurHP > 0;
@@ -67,13 +69,16 @@ namespace PoeHUD.Models
             return components.ContainsKey(typeof(T).Name);
         }
 
-        public void PrintComponents()
+        public List<string> PrintComponents()
         {
-            Console.WriteLine(internalEntity.Path + " " + internalEntity.Address.ToString("X"));
+            List<string> result = new List<string>();
+            result.Add(internalEntity.Path + " " + internalEntity.Address.ToString("X"));
+
             foreach (var current in components)
             {
-                Console.WriteLine(current.Key + " " + current.Value.ToString("X"));
+                result.Add(current.Key + " " + current.Value.ToString("X"));
             }
+            return result;
         }
 
         public override bool Equals(object obj)

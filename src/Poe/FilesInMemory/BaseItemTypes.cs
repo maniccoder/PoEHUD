@@ -10,7 +10,7 @@ namespace PoeHUD.Poe.FilesInMemory
         private readonly Dictionary<string, BaseItemType> contents = new Dictionary<string, BaseItemType>();
         private readonly ItemClassesDisplay itemClassesDisplay;
 
-        public BaseItemTypes(Memory m, int address, ItemClassesDisplay itemClassesDisplay) : base(m, address)
+        public BaseItemTypes(Memory m, long address, ItemClassesDisplay itemClassesDisplay) : base(m, address)
         {
             this.itemClassesDisplay = itemClassesDisplay;
             LoadItemTypes();
@@ -32,17 +32,19 @@ namespace PoeHUD.Poe.FilesInMemory
 
         private void LoadItemTypes()
         {
-            foreach (int i in RecordAddresses())
+            foreach (long i in RecordAddresses())
             {
-                string key = M.ReadStringU(M.ReadInt(i));
+                string key = M.ReadStringU(M.ReadLong(i));
                 var baseItemType = new BaseItemType
                 {
-                    BaseName = M.ReadStringU(M.ReadInt(i + 0x14)),
-                    ClassName = M.ReadStringU(M.ReadInt(i + 0x8, 0)),
-                    Width = M.ReadInt(i + 0xC),
-                    Height = M.ReadInt(i + 0x10),
-                    DropLevel = M.ReadInt(i + 0x1C)
+                    ClassName = M.ReadStringU(M.ReadLong(i + 0x10, 0)),
+
+                    Width = M.ReadInt(i + 0x18),
+                    Height = M.ReadInt(i + 0x1C),
+                    BaseName = M.ReadStringU(M.ReadLong(i + 0x20)),
+                    DropLevel = M.ReadInt(i + 0x30)
                 };
+
                 if (!contents.ContainsKey(key))
                 {
                     contents.Add(key, baseItemType);

@@ -6,21 +6,21 @@ namespace PoeHUD.Poe
 {
     public class Element : RemoteMemoryObject
     {
-        public const int OffsetBuffers = 0x76C;
+        public const int OffsetBuffers = 0x6EC;
         // dd id
         // dd (something zero)
         // 16 dup <128-bytes structure>
         // then the rest is
 
         public int vTable => M.ReadInt(Address + 0);
-        public int ChildCount => (M.ReadInt(Address + 0x20 + OffsetBuffers) - M.ReadInt(Address + 0x1C + OffsetBuffers)) / 4;
-        public bool IsVisibleLocal => (M.ReadInt(Address + 0x68 + OffsetBuffers) & 1) == 1;
-        public Element Root => ReadObject<Element>(Address + 0x6c + OffsetBuffers);
-        public Element Parent => ReadObject<Element>(Address + 0x70 + OffsetBuffers);
-        public float X => M.ReadFloat(Address + 0x74 + OffsetBuffers);
-        public float Y => M.ReadFloat(Address + 0x78 + OffsetBuffers);
-        public float Width => M.ReadFloat(Address + 0x118 + OffsetBuffers);
-        public float Height => M.ReadFloat(Address + 0x11C + OffsetBuffers);
+        public long ChildCount => (M.ReadLong(Address + 0x4C + OffsetBuffers) - M.ReadLong(Address + 0x3c + OffsetBuffers)) / 8;
+        public bool IsVisibleLocal => (M.ReadInt(Address + 0x94 + OffsetBuffers) & 1) == 1;
+        public Element Root => ReadObject<Element>(Address + 0x9C + OffsetBuffers);
+        public Element Parent => ReadObject<Element>(Address + 0xA4 + OffsetBuffers);
+        public float X => M.ReadFloat(Address + 0xAC + OffsetBuffers);
+        public float Y => M.ReadFloat(Address + 0xB0 + OffsetBuffers);
+        public float Width => M.ReadFloat(Address + 0x1D4 + OffsetBuffers);
+        public float Height => M.ReadFloat(Address + 0x1D8 + OffsetBuffers);
 
         public bool IsVisible
         {
@@ -31,16 +31,16 @@ namespace PoeHUD.Poe
 
         protected List<T> GetChildren<T>() where T : Element, new()
         {
-            const int listOffset = 0x1C + OffsetBuffers;
+            const int listOffset = 0x3C + OffsetBuffers;
             var list = new List<T>();
-            if (M.ReadInt(Address + listOffset + 4) == 0 || M.ReadInt(Address + listOffset) == 0 ||
+            if (M.ReadLong(Address + listOffset + 8) == 0 || M.ReadLong(Address + listOffset) == 0 ||
                 ChildCount > 1000)
             {
                 return list;
             }
             for (int i = 0; i < ChildCount; i++)
             {
-                list.Add(GetObject<T>(M.ReadInt(Address + listOffset, i * 4)));
+                list.Add(GetObject<T>(M.ReadLong(Address + listOffset, i * 8)));
             }
             return list;
         }
@@ -102,7 +102,7 @@ namespace PoeHUD.Poe
 
         public Element GetChildAtIndex(int index)
         {
-            return index >= ChildCount ? null : GetObject<Element>(M.ReadInt(Address + 0x1C + OffsetBuffers, index * 4));
+            return index >= ChildCount ? null : GetObject<Element>(M.ReadLong(Address + 0x24 + OffsetBuffers, index * 8));
         }
     }
 }
