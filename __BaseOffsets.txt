@@ -1,0 +1,9 @@
+AddressOfProcess: 7FF72C710000
+GameControllerOffsRead: FA6F38
+GameController: 7FF72D6B6F38
+TheGame: 20B0CB8E060
+IngameState: 20AC2D2ADB0
+DiagnosticInfoType: Off
+Camera addr: 20AC2D2C494
+Area change: 7
+

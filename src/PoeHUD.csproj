@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
-    <AssemblyName>GHGHJ768</AssemblyName>
+    <AssemblyName>TempName</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -125,8 +125,9 @@
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>..\..\CrystalOre\PoEHUD-master\packages\SharpDX.3.0.2\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\SharpDX.3.0.2\lib\net45\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Desktop, Version=3.0.2.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>packages\SharpDX.Desktop.3.0.2\lib\net45\SharpDX.Desktop.dll</HintPath>
@@ -134,6 +135,9 @@
     </Reference>
     <Reference Include="SharpDX.Desktop.Fakes">
       <HintPath>FakesAssemblies\SharpDX.Desktop.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\..\..\Downloads\Bin\Desktop\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9, Version=3.0.2.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>packages\SharpDX.Direct3D9.3.0.2\lib\net45\SharpDX.Direct3D9.dll</HintPath>
@@ -148,6 +152,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="Tools, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Tools\bin\Debug\Tools.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\FsController.cs" />
@@ -366,13 +374,12 @@
       <Project>{8f5d7d56-7a81-433a-b358-ab297a136183}</Project>
       <Name>PoeFilterParser</Name>
     </ProjectReference>
-    <ProjectReference Include="Tools\Tools.fsproj">
-      <Project>{5f2ae016-51d1-42c4-95cd-4e12118e3a6e}</Project>
-      <Name>Tools</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="poehud.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

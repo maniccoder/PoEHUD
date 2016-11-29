@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Text;
 using System.IO;
+using Tools;
 
 namespace PoeHUD
 {
@@ -35,7 +36,9 @@ namespace PoeHUD
             String o2 = $"No - process #{clients[1].Item1.Id}, started at {clients[1].Item1.StartTime.ToLongTimeString()}";
             const string o3 = "Cancel - quit this application";
             var answer = MessageBox.Show(null, String.Join(Environment.NewLine, o1, o2, o3),
+
                 "Choose a PoE instance to attach to", MessageBoxButtons.YesNoCancel);
+            MessageBox.Show("In choose single process.");
             return answer == DialogResult.Cancel ? -1 : answer == DialogResult.Yes ? 0 : 1;
         }
 
